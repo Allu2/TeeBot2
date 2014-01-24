@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/TeeBot.py" line="69" />
+    <bookmark url="file://$PROJECT_DIR$/TeeBot.py" line="74" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f48715a7-003d-42b8-b1d1-ed54423ce415" name="Default" comment="Added exception">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Bot.py" afterPath="$PROJECT_DIR$/Bot.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/TeeBot2.iml" afterPath="$PROJECT_DIR$/.idea/TeeBot2.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+    <list default="true" id="f48715a7-003d-42b8-b1d1-ed54423ce415" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeeBot.py" afterPath="$PROJECT_DIR$/TeeBot.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="TeeBot2.iws" />
@@ -34,25 +32,25 @@
       <file leaf-file-name="Tees.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Tees.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="42" column="0" selection-start="1294" selection-end="1294" vertical-scroll-proportion="0.0" vertical-offset="201" max-vertical-offset="795">
+            <state line="42" column="0" selection-start="1294" selection-end="1294" vertical-scroll-proportion="0.0" vertical-offset="216" max-vertical-offset="795">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Bot.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Bot.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Bot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="75" column="32" selection-start="2983" selection-end="2983" vertical-scroll-proportion="0.8409894" vertical-offset="649" max-vertical-offset="1230">
+            <state line="75" column="32" selection-start="2983" selection-end="2983" vertical-scroll-proportion="0.0" vertical-offset="664" max-vertical-offset="1230">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TeeBot.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="TeeBot.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/TeeBot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="85" column="0" selection-start="2936" selection-end="2936" vertical-scroll-proportion="-273.5" vertical-offset="728" max-vertical-offset="1380">
+            <state line="76" column="31" selection-start="2723" selection-end="2723" vertical-scroll-proportion="0.49393415" vertical-offset="855" max-vertical-offset="1455">
               <folding />
             </state>
           </provider>
@@ -97,8 +95,8 @@
         <option value="$PROJECT_DIR$/Tees.py" />
         <option value="$PROJECT_DIR$/Tee.py" />
         <option value="$PROJECT_DIR$/Events_TeeBot.py" />
-        <option value="$PROJECT_DIR$/TeeBot.py" />
         <option value="$PROJECT_DIR$/Bot.py" />
+        <option value="$PROJECT_DIR$/TeeBot.py" />
       </list>
     </option>
   </component>
@@ -345,12 +343,18 @@
       <created>1390523407811</created>
       <updated>1390523407811</updated>
     </task>
+    <task id="LOCAL-00001" summary="Added exception handling to prevent failing utterly to each and every key error.">
+      <created>1390567959366</created>
+      <updated>1390567959366</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="27" width="1368" height="742" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -377,6 +381,8 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
+    <MESSAGE value="Added exception handling to prevent failing utterly to each and every key error." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added exception handling to prevent failing utterly to each and every key error." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -429,13 +435,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Tees.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="0" selection-start="1294" selection-end="1294" vertical-scroll-proportion="0.0" vertical-offset="201" max-vertical-offset="795">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Events_TeeBot.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="85" column="67" selection-start="3336" selection-end="3404" vertical-scroll-proportion="0.0" vertical-offset="846" max-vertical-offset="2295">
@@ -443,16 +442,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/TeeBot.py">
+    <entry file="file://$PROJECT_DIR$/Bot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="85" column="0" selection-start="2936" selection-end="2936" vertical-scroll-proportion="-273.5" vertical-offset="728" max-vertical-offset="1380">
+        <state line="75" column="32" selection-start="2983" selection-end="2983" vertical-scroll-proportion="0.0" vertical-offset="664" max-vertical-offset="1230">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Bot.py">
+    <entry file="file://$PROJECT_DIR$/Tees.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="32" selection-start="2983" selection-end="2983" vertical-scroll-proportion="0.8409894" vertical-offset="649" max-vertical-offset="1230">
+        <state line="42" column="0" selection-start="1294" selection-end="1294" vertical-scroll-proportion="0.0" vertical-offset="201" max-vertical-offset="795">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TeeBot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="76" column="31" selection-start="2723" selection-end="2723" vertical-scroll-proportion="0.49393415" vertical-offset="855" max-vertical-offset="1455">
           <folding />
         </state>
       </provider>

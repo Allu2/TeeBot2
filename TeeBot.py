@@ -65,8 +65,13 @@ class TeeBot(object):
             print(result.groups())
             for x in result.groups():
                 print(x)
-            self.teelst.add_Tee(result.groups()[0], result.groups()[3], result.groups()[1], result.groups()[2],
-                                result.groups()[-1], 0) # id, name, ip, port, score
+                try:
+                    self.teelst.get_Tee(result.groups()[0])
+                    pass
+                except KeyError as e:
+                    self.events.debug("Didn't find Tee in player lists, adding it now:", "PLAYER")
+                    self.teelst.add_Tee(result.groups()[0], result.groups()[3], result.groups()[1], result.groups()[2],
+                                        result.groups()[-1], 0) # id, name, ip, port, score
         return self.teelst.get_TeeLst()
 
     def get_Leaves(self, line):
