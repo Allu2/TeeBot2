@@ -56,6 +56,13 @@ class TeeBot(object):
     def brd(self, message):
         self.writeLine('broadcast "' + message.replace('"', "'") + "\"'")
 
+    def killSpree(self, id):
+        tee = self.get_Teelista().get(id)
+        spree = tee.get_spree()
+        if (spree % 5) == 0 and spree != 0:
+            self.brd(tee.get_nick().decode('utf-8') + " is on a killing spree with " + str(
+                tee.get_spree()) + " kills!")
+
     def get_Teelista(self):
         return self.teelst.get_TeeLst()
 
@@ -77,7 +84,7 @@ class TeeBot(object):
     def get_Leaves(self, line):
         if b"[server]: client dropped. cid=" in line:
             result = re.search(b"\[server\]: client dropped. cid=(\d+)", line)
-            print(result.groups()[0])
+            self.events.debug(result.groups()[0], "DEBUG")
             ide = result.groups()[0]
             nick = self.teelst.get_Tee(ide).nick
             self.teelst.rm_Tee(ide)
