@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/TeeBot.py" line="74" />
+    <bookmark url="file://$PROJECT_DIR$/TeeBot.py" line="80" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f48715a7-003d-42b8-b1d1-ed54423ce415" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Bot.py" afterPath="$PROJECT_DIR$/Bot.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Events_TeeBot.py" afterPath="$PROJECT_DIR$/Events_TeeBot.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeeBot.py" afterPath="$PROJECT_DIR$/TeeBot.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/TeeBot2.iml" afterPath="$PROJECT_DIR$/.idea/TeeBot2.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="TeeBot2.iws" />
@@ -39,10 +40,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Bot.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Bot.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Bot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="83" column="0" selection-start="3454" selection-end="3454" vertical-scroll-proportion="0.7478992" vertical-offset="978" max-vertical-offset="1335">
+            <state line="63" column="54" selection-start="2319" selection-end="2319" vertical-scroll-proportion="0.0" vertical-offset="710" max-vertical-offset="1320">
               <folding />
             </state>
           </provider>
@@ -51,16 +52,16 @@
       <file leaf-file-name="telnetlib.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file:///usr/lib/python3.3/telnetlib.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="295" column="14" selection-start="9678" selection-end="9678" vertical-scroll-proportion="0.0" vertical-offset="4107" max-vertical-offset="11880">
+            <state line="295" column="0" selection-start="9731" selection-end="9731" vertical-scroll-proportion="0.0" vertical-offset="4425" max-vertical-offset="11850">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TeeBot.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="TeeBot.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/TeeBot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="47" column="0" selection-start="1505" selection-end="1505" vertical-scroll-proportion="-10.5" vertical-offset="684" max-vertical-offset="1455">
+            <state line="77" column="58" selection-start="2680" selection-end="2680" vertical-scroll-proportion="0.59016395" vertical-offset="795" max-vertical-offset="1545">
               <folding />
             </state>
           </provider>
@@ -69,7 +70,7 @@
       <file leaf-file-name="Events_TeeBot.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Events_TeeBot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="81" column="0" selection-start="3161" selection-end="3161" vertical-scroll-proportion="0.0" vertical-offset="945" max-vertical-offset="2295">
+            <state line="81" column="0" selection-start="3161" selection-end="3161" vertical-scroll-proportion="0.0" vertical-offset="1215" max-vertical-offset="2295">
               <folding />
             </state>
           </provider>
@@ -78,7 +79,7 @@
       <file leaf-file-name="Tee.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Tee.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="57" column="0" selection-start="1513" selection-end="1513" vertical-scroll-proportion="0.0" vertical-offset="545" max-vertical-offset="1050">
+            <state line="57" column="0" selection-start="1513" selection-end="1513" vertical-scroll-proportion="0.0" vertical-offset="855" max-vertical-offset="1050">
               <folding />
             </state>
           </provider>
@@ -104,17 +105,17 @@
       <list>
         <option value="$PROJECT_DIR$/Tees.py" />
         <option value="$PROJECT_DIR$/Tee.py" />
-        <option value="$PROJECT_DIR$/TeeBot.py" />
         <option value="$PROJECT_DIR$/Events_TeeBot.py" />
         <option value="$PROJECT_DIR$/Bot.py" />
+        <option value="$PROJECT_DIR$/TeeBot.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1" />
-    <option name="y" value="27" />
-    <option name="width" value="1368" />
-    <option name="height" value="742" />
+    <option name="x" value="64" />
+    <option name="y" value="-4" />
+    <option name="width" value="1857" />
+    <option name="height" value="1085" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -142,7 +143,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -163,15 +163,16 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="options.lastSelected" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="recentsLimit" value="5" />
-    <property name="options.lastSelected" value="com.jetbrains.python.configuration.PythonSdkConfigurable" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -361,23 +362,27 @@
       <created>1390568603307</created>
       <updated>1390568603307</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Killing spree seems to work, in theory, needs more testing!">
+      <created>1390574851437</created>
+      <updated>1390574851437</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="27" width="1368" height="742" extended-state="6" />
+    <frame x="64" y="-4" width="1857" height="1085" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25549048" sideWeight="0.65625" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14285715" sideWeight="0.6670146" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39967105" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985386" sideWeight="0.50026953" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34375" sideWeight="0.49973047" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33298537" sideWeight="0.49973047" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -397,13 +402,49 @@
     </option>
     <MESSAGE value="Added exception handling to prevent failing utterly to each and every key error." />
     <MESSAGE value="Added support for ignoring existing players in the playerlist when updating it. (and so avoiding to reset the spree stats)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added support for ignoring existing players in the playerlist when updating it. (and so avoiding to reset the spree stats)" />
+    <MESSAGE value="Killing spree seems to work, in theory, needs more testing!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Killing spree seems to work, in theory, needs more testing!" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Bot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="83" column="0" selection-start="3451" selection-end="3451" vertical-scroll-proportion="0.0" vertical-offset="1245" max-vertical-offset="1350">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/lib/python3.3/telnetlib.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="295" column="0" selection-start="9731" selection-end="9731" vertical-scroll-proportion="0.0" vertical-offset="4425" max-vertical-offset="11895">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TeeBot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="0" selection-start="1505" selection-end="1505" vertical-scroll-proportion="0.0" vertical-offset="705" max-vertical-offset="1455">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Events_TeeBot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="81" column="0" selection-start="3161" selection-end="3161" vertical-scroll-proportion="0.0" vertical-offset="1215" max-vertical-offset="2295">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Tee.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="0" selection-start="1513" selection-end="1513" vertical-scroll-proportion="0.0" vertical-offset="855" max-vertical-offset="1050">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Tees.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="42" column="0" selection-start="1294" selection-end="1294" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="795">
@@ -453,20 +494,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/lib/python3.3/telnetlib.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="295" column="14" selection-start="9678" selection-end="9678" vertical-scroll-proportion="0.0" vertical-offset="4107" max-vertical-offset="11880">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TeeBot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="0" selection-start="1505" selection-end="1505" vertical-scroll-proportion="-10.5" vertical-offset="684" max-vertical-offset="1455">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Tee.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="57" column="0" selection-start="1513" selection-end="1513" vertical-scroll-proportion="0.0" vertical-offset="479" max-vertical-offset="1050">
@@ -474,9 +501,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file:///usr/lib/python3.3/telnetlib.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="295" column="0" selection-start="9731" selection-end="9731" vertical-scroll-proportion="0.0" vertical-offset="4425" max-vertical-offset="11895">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Bot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="83" column="0" selection-start="3454" selection-end="3454" vertical-scroll-proportion="0.7478992" vertical-offset="978" max-vertical-offset="1335">
+        <state line="63" column="54" selection-start="2319" selection-end="2319" vertical-scroll-proportion="0.0" vertical-offset="710" max-vertical-offset="1320">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TeeBot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="77" column="58" selection-start="2680" selection-end="2680" vertical-scroll-proportion="0.59016395" vertical-offset="795" max-vertical-offset="1545">
           <folding />
         </state>
       </provider>

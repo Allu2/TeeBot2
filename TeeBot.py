@@ -69,14 +69,15 @@ class TeeBot(object):
     def updTeeList(self, line):
         if b"[Server]: id=" in line:
             result = re.search(b"id=(\d+) addr=(.+):(\d+) name='(.+)' score=(.+)", line)
-            print(result.groups())
+            self.events.debug(result.groups(), "DEBUG")
             for x in result.groups():
-                print(x)
                 try:
                     self.teelst.get_Tee(result.groups()[0])
                     pass
                 except KeyError as e:
-                    self.events.debug("Didn't find Tee in player lists, adding it now:", "PLAYER")
+                    self.events.debug(
+                        "Didn't find Tee: {} in player lists, adding it now:".format(result.groups()[3].decode()),
+                        "PLAYER")
                     self.teelst.add_Tee(result.groups()[0], result.groups()[3], result.groups()[1], result.groups()[2],
                                         result.groups()[-1], 0) # id, name, ip, port, score
         return self.teelst.get_TeeLst()
