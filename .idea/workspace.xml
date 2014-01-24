@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f48715a7-003d-42b8-b1d1-ed54423ce415" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TeeBot.py" afterPath="$PROJECT_DIR$/TeeBot.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Bot.py" afterPath="$PROJECT_DIR$/Bot.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Events_TeeBot.py" afterPath="$PROJECT_DIR$/Events_TeeBot.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="TeeBot2.iws" />
@@ -18,7 +19,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CreatePatchCommitExecutor">
-    <option name="PATCH_PATH" value="" />
+    <option name="PATCH_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="DaemonCodeAnalyzer">
     <disable_hints />
@@ -38,19 +39,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Bot.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Bot.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Bot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="75" column="32" selection-start="2983" selection-end="2983" vertical-scroll-proportion="0.0" vertical-offset="664" max-vertical-offset="1230">
+            <state line="83" column="0" selection-start="3454" selection-end="3454" vertical-scroll-proportion="0.7478992" vertical-offset="978" max-vertical-offset="1335">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TeeBot.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="telnetlib.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file:///usr/lib/python3.3/telnetlib.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="295" column="14" selection-start="9678" selection-end="9678" vertical-scroll-proportion="0.0" vertical-offset="4107" max-vertical-offset="11880">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TeeBot.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/TeeBot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="76" column="31" selection-start="2723" selection-end="2723" vertical-scroll-proportion="0.49393415" vertical-offset="855" max-vertical-offset="1455">
+            <state line="47" column="0" selection-start="1505" selection-end="1505" vertical-scroll-proportion="-10.5" vertical-offset="684" max-vertical-offset="1455">
               <folding />
             </state>
           </provider>
@@ -59,7 +69,7 @@
       <file leaf-file-name="Events_TeeBot.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Events_TeeBot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="85" column="67" selection-start="3336" selection-end="3404" vertical-scroll-proportion="0.0" vertical-offset="1275" max-vertical-offset="2295">
+            <state line="81" column="0" selection-start="3161" selection-end="3161" vertical-scroll-proportion="0.0" vertical-offset="945" max-vertical-offset="2295">
               <folding />
             </state>
           </provider>
@@ -68,7 +78,7 @@
       <file leaf-file-name="Tee.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Tee.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="57" column="0" selection-start="1513" selection-end="1513" vertical-scroll-proportion="0.0" vertical-offset="855" max-vertical-offset="1050">
+            <state line="57" column="0" selection-start="1513" selection-end="1513" vertical-scroll-proportion="0.0" vertical-offset="545" max-vertical-offset="1050">
               <folding />
             </state>
           </provider>
@@ -94,9 +104,9 @@
       <list>
         <option value="$PROJECT_DIR$/Tees.py" />
         <option value="$PROJECT_DIR$/Tee.py" />
+        <option value="$PROJECT_DIR$/TeeBot.py" />
         <option value="$PROJECT_DIR$/Events_TeeBot.py" />
         <option value="$PROJECT_DIR$/Bot.py" />
-        <option value="$PROJECT_DIR$/TeeBot.py" />
       </list>
     </option>
   </component>
@@ -347,7 +357,11 @@
       <created>1390567959366</created>
       <updated>1390567959366</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added support for ignoring existing players in the playerlist when updating it. (and so avoiding to reset the spree stats)">
+      <created>1390568603307</created>
+      <updated>1390568603307</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -359,11 +373,11 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25549048" sideWeight="0.65554357" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25549048" sideWeight="0.65625" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39967105" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985386" sideWeight="0.50026953" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3443163" sideWeight="0.49973047" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34375" sideWeight="0.49973047" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -382,7 +396,9 @@
       <TodoPanelSettings />
     </option>
     <MESSAGE value="Added exception handling to prevent failing utterly to each and every key error." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added exception handling to prevent failing utterly to each and every key error." />
+    <MESSAGE value="Added support for ignoring existing players in the playerlist when updating it. (and so avoiding to reset the spree stats)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added support for ignoring existing players in the playerlist when updating it. (and so avoiding to reset the spree stats)" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -423,9 +439,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Tees.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="42" column="0" selection-start="1294" selection-end="1294" vertical-scroll-proportion="0.0" vertical-offset="201" max-vertical-offset="795">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Events_TeeBot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="81" column="0" selection-start="3161" selection-end="3161" vertical-scroll-proportion="0.0" vertical-offset="1035" max-vertical-offset="2295">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file:///usr/lib/python3.3/telnetlib.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="292" column="0" selection-start="9591" selection-end="9591" vertical-scroll-proportion="0.0" vertical-offset="4131" max-vertical-offset="11850" />
+        <state line="295" column="14" selection-start="9678" selection-end="9678" vertical-scroll-proportion="0.0" vertical-offset="4107" max-vertical-offset="11880">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TeeBot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="0" selection-start="1505" selection-end="1505" vertical-scroll-proportion="-10.5" vertical-offset="684" max-vertical-offset="1455">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Tee.py">
@@ -435,30 +474,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Events_TeeBot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="85" column="67" selection-start="3336" selection-end="3404" vertical-scroll-proportion="0.0" vertical-offset="846" max-vertical-offset="2295">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Bot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="32" selection-start="2983" selection-end="2983" vertical-scroll-proportion="0.0" vertical-offset="664" max-vertical-offset="1230">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Tees.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="0" selection-start="1294" selection-end="1294" vertical-scroll-proportion="0.0" vertical-offset="201" max-vertical-offset="795">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TeeBot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="76" column="31" selection-start="2723" selection-end="2723" vertical-scroll-proportion="0.49393415" vertical-offset="855" max-vertical-offset="1455">
+        <state line="83" column="0" selection-start="3454" selection-end="3454" vertical-scroll-proportion="0.7478992" vertical-offset="978" max-vertical-offset="1335">
           <folding />
         </state>
       </provider>

@@ -43,7 +43,7 @@ class Events:
         [INFO]: This is a debug message
         >>>
         """
-        debug_level = 2
+        debug_level = 3
         if debug_level >= 3:
             print ("[" + str(reason) + "]: " + str(msg))
         if debug_level == 2 and "KILL" in reason:
