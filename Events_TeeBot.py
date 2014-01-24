@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#       Author: Aleksi Palomäki, aka Allu2
+#       Author: Aleksi Palomäki, a.k.a Allu2 <aleksi.ajp@gmail.com>
 #        Copyright: GPL3 2011
 #
 #       This program is free software; you can redistribute it and/or modify
