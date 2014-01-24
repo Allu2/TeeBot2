@@ -24,6 +24,7 @@
 Ok so this is a "class" that is suppose to handle some events that occur on teeworlds server.
 So far it supports parsing conversation (and for a server-side bot i think this is crucial)
 It also supports somehow ripping information from "status" command in order to get statistic and player info
+With some introduction of regexp and stuff this documentation should be redone.
 """
 import re
 
