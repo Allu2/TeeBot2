@@ -71,7 +71,7 @@ class TeeBot(object):
 
     def get_Leaves(self, line):
         if b"[server]: client dropped. cid=" in line:
-            result = re.search("\[server\]: client dropped. cid=(\d+)", line)
+            result = re.search(b"\[server\]: client dropped. cid=(\d+)", line)
             print(result.groups()[0])
             ide = result.groups()[0]
             nick = self.teelst.get_Tee(ide).nick

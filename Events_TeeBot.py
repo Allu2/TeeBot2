@@ -43,13 +43,15 @@ class Events:
         [INFO]: This is a debug message
         >>>
         """
-        debug_level = 3
-        if debug_level>=3:
+        debug_level = 2
+        if debug_level >= 3:
             print ("[" + str(reason) + "]: " + str(msg))
-        if debug_level ==2 and msg != "[INFO]":
+        if debug_level == 2 and "KILL" in reason:
             print ("[" + str(reason) + "]: " + str(msg))
-        if debug_level <=1 and msg == "[CRITICAL]":
+        if debug_level <=1 and msg == "CRITICAL":
             print ("[" + str(reason) + "]: " + str(msg))
+        else:
+            pass
 
     def msg_found(self, msg, message):
         """
@@ -74,7 +76,7 @@ class Events:
                 lst = list(result.groups())
                 lst.append("KILL") #killer_id, killer_name, victim_id, victim_name, used_weapon_id, special(0/1(?)), type of event
                 print(lst)
-                self.debug("Player "+str(lst[1])+ " was killed by "+str(lst[3]) + " with a "+str(self.Weaponsolv(int(lst[4]))), "KILL")
+                self.debug("Player "+lst[1].decode()+ " was killed by "+lst[3].decode() + " with a "+self.Weaponsolv(int(lst[4])), "KILL")
                 return lst
             if b"[game]: pickup " in line:
 
