@@ -20,7 +20,7 @@
 #  
 #  
 
-import TeeBot
+import TeeBot, time
 from passwordi import password
 
 bot = TeeBot.TeeBot("localhost", 9001, password) #use your own password here :P
@@ -28,12 +28,14 @@ con = bot.connect
 bot.say("Connected.")
 bot.writeLine("status")
 check = 5
+ticks = 0.2
 while True:
+    time.sleep(ticks)
     try:
         try:
             line = bot.readLine()
         except Exception as e:
-            bot.events.debug("Error: " + e, "SEVERE")
+            bot.debug("Error: " + e, "SEVERE")
             exit()
             #	print line
         if b"[chat]:" in line.split(b" ")[0] and line.split(b" ")[1] != b"***":
@@ -45,9 +47,9 @@ while True:
                     bot.say(lista[x].get_nick())
             except:
                 print("Couldn't list players, some error!")
-            #	print chat
+                #	print chat
         if b"[server]:" in line.split(b" ")[0] and b"client" in line.split(b" ")[1]:
-            bot.events.debug((bot.get_Leaves(line)))
+            bot.debug((bot.get_Leaves(line)))
             bot.writeLine("status")
         if b"[server]:" in line.split(b" ")[0] and (b"player" in line.split(b" ")[1] and b"has" in line.split(b" ")[2]):
             bot.writeLine("status")
@@ -55,25 +57,28 @@ while True:
             lista = bot.updTeeList(line)
         else:
             event = bot.get_Event(line)
-            if event[-1] == "KILL":
-                bot.events.debug(event, "EVENT")
-                bot.events.debug("We got kill event.", "KILL")
-                bot.events.debug("Adding more to killers spree.", "KILL")
-                killer_tee = bot.get_Teelista().get(event[2])
-                killer_tee.set_spree(killer_tee.get_spree() + 1)
-                bot.events.debug("We have killer id: {}".format(event[2]), "DEBUG")
-                if killer_tee.get_idnum() == event[0]:
-                    bot.events.debug("Its a suecide! reset killers stats!", "KILL")
-                    killer_tee.set_spree(0)
+            if event is not None:
+                if event[-1] == "KILL":
+                    bot.debug(event, "EVENT")
+                    bot.debug("We got kill event.", "KILL")
+                    bot.debug("Adding more to killers spree.", "KILL")
+                    killer_tee = bot.get_Teelista().get(event[2])
+                    killer_tee.set_spree(killer_tee.get_spree() + 1)
+                    bot.debug("We have killer id: {}".format(event[2]), "DEBUG")
+                    if killer_tee.get_idnum() == event[0]:
+                        bot.debug("Its a suecide! reset killers stats!", "KILL")
+                        killer_tee.set_spree(0)
 
+                    else:
+                        bot.debug("Resetting victims spree.", "KILL")
+                        bot.debug(event[0], "DEBUG")
+                        victim_tee = bot.get_Teelista().get(event[0])
+                        victim_tee.set_spree(0)
+                        bot.killSpree(event[2])
                 else:
-                    bot.events.debug("Resetting victims spree.", "KILL")
-                    bot.events.debug(event[0], "DEBUG")
-                    victim_tee = bot.get_Teelista().get(event[0])
-                    victim_tee.set_spree(0)
-                    bot.killSpree(event[2])
+                    pass
             else:
                 pass
     except (KeyError, TypeError, AttributeError) as e:
-        bot.events.debug("We got an error: {0}".format(e), "CRITICAL")
+        bot.debug("We got an error 1: {0}".format(e), "CRITICAL")
         bot.writeLine("status")

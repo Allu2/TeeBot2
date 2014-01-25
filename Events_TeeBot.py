@@ -29,31 +29,7 @@ With some introduction of regexp and stuff this documentation should be redone.
 import re
 
 
-class Events:
-    def debug(self, msg, reason):
-        """
-        ## debug()
-        debug() is well.. what it says, its used to provide easy debug messages to the console.
-        Usage:
-        import Events_teebot
-        x = Events_TeeBot.Events()
-        x.debug("This is a debug message", "[INFO]")
-
-        Output:
-        >>> x.debug("This is a debug message", "[INFO]")
-        [INFO]: This is a debug message
-        >>>
-        """
-        debug_level = 3
-        if debug_level >= 3:
-            print ("[" + str(reason) + "]: " + str(msg))
-        if debug_level == 2 and "KILL" in reason:
-            print ("[" + str(reason) + "]: " + str(msg))
-        if debug_level <=1 and msg == "CRITICAL":
-            print ("[" + str(reason) + "]: " + str(msg))
-        else:
-            pass
-
+class Events():
     def msg_found(self, msg, message):
         """
         ## msg_found()
@@ -75,18 +51,19 @@ class Events:
                 result = re.search(b"kill killer='(\d+):(.+)' victim='(\d+):(.+)' weapon=([\d-]+) special=(\d+)", line)
                 groups = result.groups()
                 lst = list(result.groups())
-                lst.append("KILL") #killer_id, killer_name, victim_id, victim_name, used_weapon_id, special(0/1(?)), type of event
+                lst.append(
+                    "KILL") #killer_id, killer_name, victim_id, victim_name, used_weapon_id, special(0/1(?)), type of event
                 print(lst)
-                self.debug("Player "+lst[1].decode()+ " was killed by "+lst[3].decode() + " with a "+self.Weaponsolv(int(lst[4])), "KILL")
+
                 return lst
             if b"[game]: pickup " in line:
-
                 result = re.search(b"pickup player='(\d+):(.+)' item=(\d+)/(\d+)", line)
                 groups = result.groups()
                 lst = list(result.groups())
                 lst.append(self.Itemsolv(int(lst[2]), int(lst[3])))
-                self.debug( str(lst[-1]) +" was picked up", "INFO")
-                lst.append("PICKUP") #player_id, player_name, item_group(0 = hearts, 1 = armors,  2 = weapons(2/0=hammer 2/1 = pistol 2/2 = shotgun 2/3 = grenade 2/4 = rifle, 3 = special), group_id(useful for weapons (ninja 3/5)
+
+                lst.append(
+                    "PICKUP") #player_id, player_name, item_group(0 = hearts, 1 = armors,  2 = weapons(2/0=hammer 2/1 = pistol 2/2 = shotgun 2/3 = grenade 2/4 = rifle, 3 = special), group_id(useful for weapons (ninja 3/5)
                 return lst
             if b"[game]: start " in line:
                 "not implemented"
@@ -122,6 +99,7 @@ class Events:
         else:
             info = {"none": "True"}
             return info
+
     def Weaponsolv(self, id):
         if id == 0:
             return "pistol"
@@ -137,7 +115,7 @@ class Events:
             return "something magical.."
 
     def Itemsolv(self, id1, id2):
-        if id1 >1:
+        if id1 > 1:
             return self.Weaponsolv(id2)
         if id1 == 0:
             return "heart"
