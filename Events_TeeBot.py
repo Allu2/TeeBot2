@@ -89,8 +89,7 @@ class Events():
         #	team = test[2].lstrip(':')
         #	ide = test[1].lstrip(" ")
             result = re.search(b"\[chat\]: (\d+):(-\d):(.+): (.+)", line)
-            print(result.groups())
-            name = result.groups()[1]
+            name = result.groups()[2]
             ide = result.groups()[0]
             message = result.groups()[-1]
             info = {"Nick": name, "Msg": message, "ID": ide}
@@ -101,6 +100,12 @@ class Events():
             return info
 
     def Weaponsolv(self, id):
+        if id == -1:
+            return "hit on a kill tile"
+        if id == -2:
+            return "kill command"
+        if id == -3:
+            return "leaving the game"
         if id == 0:
             return "pistol"
         if id == 1:
@@ -111,6 +116,7 @@ class Events():
             return "grenade"
         if id == 4:
             return "rifle"
+
         else:
             return "something magical.."
 
