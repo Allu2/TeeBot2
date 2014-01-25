@@ -1,3 +1,5 @@
+===TeeBot2===
+
 TeeBot2 is a rewrite of my old TeeBot server monitoring bot.
 
 Features I am planning to implement are:
@@ -13,7 +15,7 @@ Features I am planning to implement are:
 
 All percents are more or less fictional.
 
-Installation/usage:
+==Installation/Usage==
 
 1. Download all the .py files in same directory from the git (or simply git clone)
 2. Make file "passwordi.py" and add there line: password = "myrconpassword"
