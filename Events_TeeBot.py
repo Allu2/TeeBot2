@@ -126,6 +126,5 @@ class Events():
             return "heart"
         if id1 == 1:
             return "armor"
-
         else:
             return "something magical.."
