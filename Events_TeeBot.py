@@ -53,7 +53,6 @@ class Events():
                 lst = list(result.groups())
                 lst.append(
                     "KILL") #killer_id, killer_name, victim_id, victim_name, used_weapon_id, special(0/1(?)), type of event
-                print(lst)
 
                 return lst
             if b"[game]: pickup " in line:
