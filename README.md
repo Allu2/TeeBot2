@@ -21,7 +21,7 @@ All percents are more or less fictional.
 2. Make file "passwordi.py" and add there line: password = "myrconpassword"
 3. Change the '9001' in Bot.py line 26 to what ever port your teeworlds server uses for telnet
 4. Run your teeworlds server
-5. run python Bot.py
+5. run python3 Bot.py
 
 DECLAIMER: Errors may occur, Your cat may be eaten, Your server might be compromised. Its not my fault, its yours.
 
