@@ -155,6 +155,12 @@ class TeeBot(object):
             if lst[-1] == "PICKUP":
                 self.debug(lst[-2] + " was picked up by " + lst[1].decode(), "INFO")
                 return lst
+            if lst[-1] == "FLAG":
+                self.debug("Flag was grabbed by " + lst[1].decode(), "FLAG")
+            if lst[-1] == "CAPTURE":
+                self.debug("Flag was Captured by " + lst[1].decode(), "FLAG")
+
+
             else:
                 pass
         else:
