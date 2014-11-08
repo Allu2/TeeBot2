@@ -66,8 +66,18 @@ class Events():
                 return lst
             if b"[game]: start " in line:
                 "not implemented"
-            if b"[game]: flag" in line:
-                return ["FLAG"]
+            if b"[game]: flag_grab" in line: #flag_grab player='2:Lauti super'
+                result = re.search(b"flag_grab player='(\d+):(.+)'", line)
+                groups = result.groups()
+                lst = list(result.groups())
+                lst.append("FLAG") #player_id, player_name, type of event
+                return lst
+            if b"[game]: flag_capture" in line:
+                result = re.search(b"flag_capture player='(\d+):(.+)'", line)
+                groups = result.groups()
+                lst = list(result.groups())
+                lst.append("CAPTURE") #player_id, player_name, type of event
+                return lst
         else:
             return ["NONE"]
 
