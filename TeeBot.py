@@ -166,7 +166,7 @@ class TeeBot(object):
                 self.debug("Flag was grabbed by " + lst[1].decode(), "FLAG")
             if lst[-1] == "CAPTURE":
                 self.debug("Flag was Captured by " + lst[1].decode(), "FLAG")
-
+            #TODO: Broadcast messages, say messages, votes...
 
             else:
                 pass

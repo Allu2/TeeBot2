@@ -45,7 +45,7 @@ class Events():
 
     def game_events(self, line):
         import re
-
+        #TODO: Broadcast messages, say messages, votes...
         if line.split(b" ")[0] == b"[game]:":
             if b"[game]: kill killer='" in line: #Kill message
                 result = re.search(b"kill killer='(\d+):(.+)' victim='(\d+):(.+)' weapon=([\d-]+) special=(\d+)", line)
