@@ -20,7 +20,11 @@
 #  
 #  
 
-import Tees, telnetlib, Events_TeeBot, re
+import telnetlib
+import re
+
+import Tees
+import Events_TeeBot
 
 
 class TeeBot(object):
@@ -57,7 +61,7 @@ class TeeBot(object):
         debug_level = 2
         in_game = False
         debug2 = ["KILL", "PLAYER"]
-        debug1 = ["CHAT", "CRITICAL"]
+        debug1 = ["CHAT", "CRITICAL", "BROADCAST"]
         if in_game:
 
             if debug_level >= 3:
@@ -88,9 +92,11 @@ class TeeBot(object):
         return self.tn.read_until(str(until).encode('utf-8'), 0.6)
 
     def say(self, message):
-        self.writeLine('say "TeeBot: ' + message.replace('"', "'") + "\"'")
+        self.debug("TeeBot2.1: " + message, "CHAT")
+        self.writeLine('say "TeeBot2.1: ' + message.replace('"', "'") + "\"'")
 
     def brd(self, message):
+        self.debug("TeeBot2.1: " + message, "BROADCAST")
         self.writeLine('broadcast "' + message.replace('"', "'") + "\"'")
 
     def killSpree(self, id):
@@ -98,12 +104,13 @@ class TeeBot(object):
         spree = tee.get_spree()
         self.debug("We got tee:" + tee.get_nick().decode() + " and id: " + str(id), "DEBUG")
         if (spree % 5) == 0 and spree != 0:
-            self.brd(tee.get_nick().decode('utf-8') + " is on a killing spree with " + str(
-                tee.get_spree()) + " kills!")
+            self.brd(tee.get_nick().decode('utf-8') + " is on a killing spree with " + str(tee.get_spree()) + " kills!")
+            pass
 
-    def shutdown(self, victim_tee, killer_tee):
+    def shutdown(self, victim_tee, killer_tee, spree):
         self.writeLine(
-            "broadcast {0} was shutdown by {1}!".format(victim_tee.get_nick().decode(), killer_tee.get_nick().decode()))
+            "broadcast {0}'s {2} kill spree was shutdown by {1}!".format(victim_tee.get_nick().decode(),
+                                                                         killer_tee.get_nick().decode(), str(spree)))
 
     def get_Teelista(self):
         return self.teelst.get_TeeLst()

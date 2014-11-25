@@ -21,6 +21,8 @@
 #  
 #  
 
+import time
+
 
 class Tee(object):
     def __init__(self, idnum, nick, ip, port, score, spree):
@@ -30,12 +32,29 @@ class Tee(object):
         self.port = port
         self.score = score
         self.spree = spree
+        self.largest_spree = 0
+        #TODO: implement multikill messages. Catch each kills kill time, and reduce it from last. if the time we get is less then 3 seconds, add in to multikill.
+        self.lastkilltime = 0
+        self.multikill = 0
+        self.largest_multikill = 0
 
     def get_spree(self):
         return self.spree
 
     def set_spree(self, spree):
+        now = time.time()
+        self.lastkilltime = now
+        if spree > self.largest_spree:
+            self.largest_spree = spree
+        if now - self.lastkilltime <= 2:
+            self.multikill += 1
+        if now - self.lastkilltime > 2:
+            self.multikill = 0
+
+        if self.multikill > self.largest_multikill:
+            self.largest_multikill = self.multikill
         self.spree = spree
+
 
     def get_nick(self):
         return self.nick
@@ -57,6 +76,12 @@ class Tee(object):
 
     def set_score(self, score):
         self.score = score
+
+    def set_multikill(self, multikill):
+        self.multikill = multikill
+
+    def get_multikill(self):
+        return self.multikill
 
     def __str__(self):
         return ( str(self.nick) + ' comes from IP adress: ' + str(self.ip) + ':' + str(self.port) + ' and has player ID: ' + str(

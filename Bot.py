@@ -20,15 +20,19 @@
 #  
 #  
 
-import TeeBot, time, threading
+import time
+import threading
+
+import TeeBot
 from passwordi import password
 
-bot = TeeBot.TeeBot("localhost", 9001, password) #use your own password here :P
+
+bot = TeeBot.TeeBot("koodaacraft.org", 9008, password) #use your own password here :P
 con = bot.connect
 bot.say("Connected.")
 bot.writeLine("status")
 check = 5
-ticks = 0.2
+ticks = 0
 while True:
     time.sleep(ticks)
     try:
@@ -41,6 +45,11 @@ while True:
         if b"[chat]:" in line.split(b" ")[0] and line.split(b" ")[1] != b"***":
             chat = bot.get_Chat(line)
             bot.debug("{0}: {1}".format(chat["Nick"].decode(), chat["Msg"].decode()), "CHAT")
+            if "/stats" == chat["Msg"].decode():
+                tee = bot.get_Tee(chat["ID"])
+                bot.say("Player: " + tee.get_nick().decode('utf-8'))
+                bot.say("Largest killing spree: " + str(tee.largest_spree))
+                bot.say("Largest multi kill: " + str(tee.largest_multikill))
         if b"[server]:" in line.split(b" ")[0] and b"client" in line.split(b" ")[1]:
             bot.debug("Player: {} has left the game.".format(bot.get_Leaves(line).decode()), "PLAYER")
             bot.writeLine("status")
@@ -53,15 +62,15 @@ while True:
             if event is not None:
                 if event[-1] == "KILL" and event[-3] != b'-3':
                     bot.debug(event, "EVENT")
-                    bot.debug("We got kill event.", "KILL")
-                    bot.debug("Adding more to killers spree.", "KILL")
-                    bot.debug("We got event:{}".format(event), "DEBUG")
+                    bot.debug("We got kill event.", "DEBUG")
+                    bot.debug("Adding more to killers spree.", "DEBUG")
+                    # bot.debug("We got event:{}".format(event), "DEBUG")
                     try:
                         killer_tee = bot.get_Tee(event[0])
                     except (KeyError, NameError) as e:
                         bot.debug("Tee didn't exist! Updating playerlist!", "DEBUG")
                         bot.writeLine("status")
-                    bot.debug("We got Tee:{}".format(killer_tee.get_nick()), "DEBUG")
+                    bot.debug("Killer caught was:{}".format(killer_tee.get_nick()), "DEBUG")
                     killer_tee.set_spree(killer_tee.get_spree() + 1)
                     bot.debug("We have killer id: {}".format(event[0]), "DEBUG")
                     if killer_tee.get_idnum() == event[2]:
