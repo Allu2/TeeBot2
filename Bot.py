@@ -27,7 +27,7 @@ import TeeBot
 from passwordi import password
 
 
-bot = TeeBot.TeeBot("koodaacraft.org", 9008, password) #use your own password here :P
+bot = TeeBot.TeeBot("localhost", 9001, password) #use your own password here :P
 con = bot.connect
 bot.say("Connected.")
 bot.writeLine("status")
