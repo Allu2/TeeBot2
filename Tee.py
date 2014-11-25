@@ -33,27 +33,30 @@ class Tee(object):
         self.score = score
         self.spree = spree
         self.largest_spree = 0
-        #TODO: implement multikill messages. Catch each kills kill time, and reduce it from last. if the time we get is less then 3 seconds, add in to multikill.
         self.lastkilltime = 0
-        self.multikill = 0
+        self.multikill = 1
         self.largest_multikill = 0
+        self.kills = 0
 
     def get_spree(self):
         return self.spree
 
     def set_spree(self, spree):
         now = time.time()
-        self.lastkilltime = now
+
         if spree > self.largest_spree:
             self.largest_spree = spree
         if now - self.lastkilltime <= 2:
             self.multikill += 1
         if now - self.lastkilltime > 2:
-            self.multikill = 0
+            self.multikill = 1
 
         if self.multikill > self.largest_multikill:
             self.largest_multikill = self.multikill
+
+        self.lastkilltime = now
         self.spree = spree
+        self.kills += 1
 
 
     def get_nick(self):

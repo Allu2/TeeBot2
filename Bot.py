@@ -50,6 +50,7 @@ while True:
                 bot.say("Player: " + tee.get_nick().decode('utf-8'))
                 bot.say("Largest killing spree: " + str(tee.largest_spree))
                 bot.say("Largest multi kill: " + str(tee.largest_multikill))
+                bot.say("Total kills: " + str(tee.kills))
         if b"[server]:" in line.split(b" ")[0] and b"client" in line.split(b" ")[1]:
             bot.debug("Player: {} has left the game.".format(bot.get_Leaves(line).decode()), "PLAYER")
             bot.writeLine("status")
