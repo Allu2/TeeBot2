@@ -29,6 +29,6 @@ All percents are more or less fictional.
 
 DISCLAIMER: Errors may occur, Your cat may be eaten, Your server might be compromised. Its not my fault, its yours.
 
-PS: you might want to touch bans.txt ;)
+
 
 -Allu2
