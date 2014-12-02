@@ -27,7 +27,7 @@ All percents are more or less fictional.
 3. Run your teeworlds server
 4. run python3 Bot.py
 
-DECLAIMER: Errors may occur, Your cat may be eaten, Your server might be compromised. Its not my fault, its yours.
+DISCLAIMER: Errors may occur, Your cat may be eaten, Your server might be compromised. Its not my fault, its yours.
 
 
 -Allu2
