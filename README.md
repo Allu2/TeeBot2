@@ -20,10 +20,10 @@ All percents are more or less fictional.
 
 1. Download all the .py files in same directory from the git (or simply git clone)
 2. Make file "config.py" and add there lines:
-* password = "myrconpassword"
-* hostname = "myserveripaddress or hostname"
-* port = 1337 (or what ever port you use)
-* banned_nicks = ["List", "Of", "Banned nick names"]
+** password = "myrconpassword"
+** hostname = "myserveripaddress or hostname"
+** port = 1337 (or what ever port you use)
+** banned_nicks = ["List", "Of", "Banned nick names"]
 3. Run your teeworlds server
 4. run python3 Bot.py
 
