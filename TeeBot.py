@@ -25,6 +25,7 @@ import re
 
 import Tees
 import Events_TeeBot
+from config import banned_nicks
 
 
 class TeeBot(object):
@@ -58,7 +59,7 @@ class TeeBot(object):
         >>>
         """
         message = "[" + str(reason) + "]: " + str(msg)
-        debug_level = 2
+        debug_level = 1
         in_game = False
         debug2 = ["KILL", "PLAYER"]
         debug1 = ["CHAT", "CRITICAL", "BROADCAST"]
@@ -66,18 +67,18 @@ class TeeBot(object):
 
             if debug_level >= 3:
                 self.say(message)
-            if debug_level == 2 and (reason in debug2) or (reason in debug1):
+            elif debug_level == 2 and (reason in debug2) or (reason in debug1):
                 self.say(message)
-            if debug_level <= 1 and reason in debug1:
+            elif debug_level <= 1 and reason in debug1:
                 self.say(message)
             else:
                 pass
         else:
             if debug_level >= 3:
                 print(message)
-            if debug_level == 2 and (reason in debug2) or (reason in debug1):
+            elif debug_level == 2 and (reason in debug2) or (reason in debug1):
                 print(message)
-            if debug_level <= 1 and reason in debug1:
+            elif debug_level <= 1 and reason in debug1:
                 print(message)
             else:
                 pass
@@ -92,11 +93,11 @@ class TeeBot(object):
         return self.tn.read_until(str(until).encode('utf-8'), 0.6)
 
     def say(self, message):
-        self.debug("TeeBot2.1: " + message, "CHAT")
-        self.writeLine('say "TeeBot2.1: ' + message.replace('"', "'") + "\"'")
+        self.debug("TeeBot2.11: " + message, "CHAT")
+        self.writeLine('say "TeeBot2.11: ' + message.replace('"', "'") + "\"'")
 
     def brd(self, message):
-        self.debug("TeeBot2.1: " + message, "BROADCAST")
+        self.debug("TeeBot2.11: " + message, "BROADCAST")
         self.writeLine('broadcast "' + message.replace('"', "'") + "\"'")
 
     def killSpree(self, id):
@@ -123,19 +124,28 @@ class TeeBot(object):
             result = re.search(b"id=(\d+) addr=(.+):(\d+) name='(.+)' score=(.+)", line)
             try:
                 self.debug(result.groups(), "DEBUG")
+                if result.groups()[3].decode() in banned_nicks:
+                    self.writeLine("kick {0}".format((result.groups()[0].decode())))
+
             except AttributeError as e:
                 self.debug("Error: {0}".format(e), "CRITICAL")
-            for x in result.groups():
-                try:
-                    self.teelst.get_Tee(result.groups()[0])
-                except AttributeError as e:
-                    self.debug("Error: {0}".format(e), "CRITICAL")
-                except KeyError as e:
-                    self.debug(
-                        "Didn't find Tee: {} in player lists, adding it now:".format(result.groups()[3].decode()),
-                        "PLAYER")
-                    self.teelst.add_Tee(result.groups()[0], result.groups()[3], result.groups()[1], result.groups()[2],
-                                        result.groups()[-1], 0) # id, name, ip, port, score
+
+            try:
+                tee = self.teelst.get_Tee(result.groups()[0])
+                if tee.get_nick().decode() != result.groups()[3].decode():
+                    tee.nick = result.groups()[3]
+                    tee.score = result.groups()[-1]
+                    tee.ip = result.groups()[1]
+                    tee.port = result.groups()[2]
+
+            except AttributeError as e:
+                self.debug("Error: {0}".format(e), "CRITICAL")
+            except KeyError as e:
+                self.debug(
+                    "Didn't find Tee: {} in player lists, adding it now:".format(result.groups()[3].decode()),
+                    "PLAYER")
+                self.teelst.add_Tee(result.groups()[0], result.groups()[3], result.groups()[1], result.groups()[2],
+                                    result.groups()[-1], 0) # id, name, ip, port, score
         return self.teelst.get_TeeLst()
 
     def get_Leaves(self, line):
