@@ -87,7 +87,7 @@ while True:
                         bot.debug(event[0], "DEBUG")
                         victim_tee = bot.get_Tee(event[2])
                         if victim_tee.get_spree() >= 5:
-                            t = threading.Timer(5, bot.shutdown, args=[victim_tee, killer_tee])
+                            t = threading.Timer(5, bot.shutdown, args=[victim_tee, killer_tee, victim_tee.get_spree()])
                             t.start()
 
                         victim_tee.set_spree(0)
