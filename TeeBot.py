@@ -21,11 +21,11 @@
 #  
 
 import telnetlib
-import re
+import time
 
 import Tees
 import Events_TeeBot
-from config import banned_nicks
+from config import accesslog
 
 
 class TeeBot(object):
@@ -44,6 +44,13 @@ class TeeBot(object):
         self.tn.write(str(self.passwd).encode('utf-8') + b'\n')
         return self.tn
 
+    def talk(self, msg, method):
+        if method == "game_chat":
+            self.say(msg)
+        elif method == "terminal":
+            print(msg)
+        else:
+            pass
     def debug(self, msg, reason):
         """
         ## debug()
@@ -60,28 +67,19 @@ class TeeBot(object):
         """
         message = "[" + str(reason) + "]: " + str(msg)
         debug_level = 1
-        in_game = False
+        method = "terminal"
         debug2 = ["KILL", "PLAYER"]
-        debug1 = ["CHAT", "CRITICAL", "BROADCAST"]
-        if in_game:
+        debug1 = ["CHAT", "CRITICAL", "BROADCAST", "CONSOLE"]
 
-            if debug_level >= 3:
-                self.say(message)
-            elif debug_level == 2 and (reason in debug2) or (reason in debug1):
-                self.say(message)
-            elif debug_level <= 1 and reason in debug1:
-                self.say(message)
-            else:
-                pass
+        if debug_level >= 3:
+            self.talk(message, method)
+        elif debug_level == 2 and (reason in debug2) or (reason in debug1):
+            self.talk(message, method)
+        elif debug_level <= 1 and reason in debug1:
+            self.talk(message, method)
         else:
-            if debug_level >= 3:
-                print(message)
-            elif debug_level == 2 and (reason in debug2) or (reason in debug1):
-                print(message)
-            elif debug_level <= 1 and reason in debug1:
-                print(message)
-            else:
-                pass
+            pass
+            # self.talk(message, "terminal")
 
     def readLine(self):
         return self.tn.read_until(b"\n")
@@ -92,18 +90,20 @@ class TeeBot(object):
     def readLines(self, until):
         return self.tn.read_until(str(until).encode('utf-8'), 0.6)
 
+    def echo(self, message):
+        # self.debug("TeeBot2.12: " + message, "CONSOLE")
+        self.writeLine('echo "TeeBot2.12: ' + message.replace('"', "'") + "\"'")
     def say(self, message):
-        self.debug("TeeBot2.11: " + message, "CHAT")
-        self.writeLine('say "TeeBot2.11: ' + message.replace('"', "'") + "\"'")
+        # self.debug("TeeBot2.12: " + message, "CHAT")
+        self.writeLine('say "TeeBot2.12: ' + message.replace('"', "'") + "\"'")
 
     def brd(self, message):
-        self.debug("TeeBot2.11: " + message, "BROADCAST")
+        # self.debug("TeeBot2.11: " + message, "BROADCAST")
         self.writeLine('broadcast "' + message.replace('"', "'") + "\"'")
 
     def killSpree(self, id):
         tee = self.get_Teelista().get(id)
         spree = tee.get_spree()
-        self.debug("We got tee:" + tee.get_nick().decode() + " and id: " + str(id), "DEBUG")
         if (spree % 5) == 0 and spree != 0:
             self.brd(tee.get_nick().decode('utf-8') + " is on a killing spree with " + str(tee.get_spree()) + " kills!")
             pass
@@ -119,69 +119,79 @@ class TeeBot(object):
     def get_Tee(self, id):
         return self.teelst.get_Tee(id)
 
-    def updTeeList(self, line):
-        if b"[Server]: id=" in line:
-            result = re.search(b"id=(\d+) addr=(.+):(\d+) name='(.+)' score=(.+)", line)
-            try:
-                self.debug(result.groups(), "DEBUG")
-                if result.groups()[3].decode() in banned_nicks:
-                    self.writeLine("kick {0}".format((result.groups()[0].decode())))
+    def updTeeList(self, event):
 
-            except AttributeError as e:
-                self.debug("Error: {0}".format(e), "CRITICAL")
-
-            try:
-                tee = self.teelst.get_Tee(result.groups()[0])
-                if tee.get_nick().decode() != result.groups()[3].decode():
-                    tee.nick = result.groups()[3]
-                    tee.score = result.groups()[-1]
-                    tee.ip = result.groups()[1]
-                    tee.port = result.groups()[2]
-
-            except AttributeError as e:
-                self.debug("Error: {0}".format(e), "CRITICAL")
-            except KeyError as e:
-                self.debug(
-                    "Didn't find Tee: {} in player lists, adding it now:".format(result.groups()[3].decode()),
-                    "PLAYER")
-                self.teelst.add_Tee(result.groups()[0], result.groups()[3], result.groups()[1], result.groups()[2],
-                                    result.groups()[-1], 0) # id, name, ip, port, score
+        # try:
+        # self.debug(result.groups(), "DEBUG")
+        # if result.groups()[3].decode() in banned_nicks:
+        #         self.writeLine("kick {0}".format(result.groups()[0].decode()))
+        #
+        # except AttributeError as e:
+        #     self.debug("Error: {0}".format(e), "CRITICAL")
+        try:
+            tee = self.teelst.get_Tee(event[0])
+            if tee.get_nick().decode() != event[3].decode():
+                old_ip = tee.ip
+                tee.nick = event[3]
+                tee.score = event[4]
+                tee.ip = event[1]
+                tee.port = event[2]
+                if old_ip != tee.ip:
+                    with open(accesslog, "a", encoding="utf-8") as accesslogi:
+                        time1 = time.strftime("%c", time.localtime())
+                        accesslogi.write("[{}] ".format(time1) + "{} joined the server ({})".format(tee.nick.decode(),
+                                                                                                    tee.ip.decode()) + "\n")
+                else:
+                    pass
+        except AttributeError as e:
+            self.debug("Error: {0}".format(e), "CRITICAL")
+        except KeyError as e:
+            self.debug(
+                "Didn't find Tee: {} in player lists, adding it now:".format(event[3].decode()),
+                "PLAYER")
+            with open(accesslog, "a", encoding="utf-8") as accesslogi:
+                nick = event[3]
+                ip = event[1]
+                time1 = time.strftime("%c", time.localtime())
+                accesslogi.write(
+                    "[{}] ".format(time1) + "{} joined the server ({})".format(nick.decode(), ip.decode()) + "\n")
+            self.teelst.add_Tee(event[0], event[3], event[1], event[2],
+                                event[-1], 0)  # id, name, ip, port, score
         return self.teelst.get_TeeLst()
 
-    def get_Leaves(self, line):
-        if b"[server]: client dropped. cid=" in line:
-            result = re.search(b"\[server\]: client dropped. cid=(\d+)", line)
-            self.debug(result.groups()[0], "DEBUG")
-            ide = result.groups()[0]
-            nick = self.teelst.get_Tee(ide).nick
-            self.teelst.rm_Tee(ide)
-            return nick
+    def get_Leaves(self, ide):
+        nick = self.teelst.get_Tee(ide).nick
+        self.teelst.rm_Tee(ide)
+        return nick
 
     def get_Chat(self, line):
         return self.events.conversation(line)
 
     def get_Event(self, line):
-        lst = self.events.game_events(line)
-        if lst is not None:
-            if lst[-1] == "KILL":
-                self.debug(
-                    "Player " + lst[3].decode() + " was killed by " + lst[
-                        1].decode() + " with a " + self.events.Weaponsolv(
-                        int(lst[4])), "KILL")
-                return lst
-            if lst[-1] == "PICKUP":
-                self.debug(lst[-2] + " was picked up by " + lst[1].decode(), "INFO")
-                return lst
-            if lst[-1] == "FLAG":
-                self.debug("Flag was grabbed by " + lst[1].decode(), "FLAG")
-            if lst[-1] == "CAPTURE":
-                self.debug("Flag was Captured by " + lst[1].decode(), "FLAG")
-            #TODO: Broadcast messages, say messages, votes...
 
-            else:
-                pass
+        lst = self.events.game_events(line)
+
+        # if lst is not None:
+        # if lst[-1] == "KILL":
+        # self.debug(
+        #             "Player " + lst[3].decode() + " was killed by " + lst[
+        #                 1].decode() + " with a " + self.events.Weaponsolv(
+        #                 int(lst[4])), "KILL")
+        #         return lst
+        #     if lst[-1] == "PICKUP":
+        #         self.debug(lst[-2] + " was picked up by " + lst[1].decode(), "INFO")
+        #         return lst
+        #     if lst[-1] == "FLAG":
+        #         self.debug("Flag was grabbed by " + lst[1].decode(), "FLAG")
+        #     if lst[-1] == "CAPTURE":
+        #         self.debug("Flag was Captured by " + lst[1].decode(), "FLAG")
+        #TODO: Broadcast messages, say messages, votes...
+        if lst[-1] != "UNKNOWN":
+            self.debug("Following event occured: " + lst[-1], "EVENT")
         else:
-            pass
+            self.debug("Following event occured: " + lst[-1], "DEBUG")
+        return lst
+
 
 
 
