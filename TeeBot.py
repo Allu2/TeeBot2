@@ -66,7 +66,7 @@ class TeeBot(object):
         >>>
         """
         message = "[" + str(reason) + "]: " + str(msg)
-        debug_level = 1
+        debug_level = 3
         method = "terminal"
         debug2 = ["KILL", "PLAYER"]
         debug1 = ["CHAT", "CRITICAL", "BROADCAST", "CONSOLE"]

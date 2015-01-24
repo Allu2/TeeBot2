@@ -30,6 +30,7 @@ from config import hostname
 from config import banned_nicks
 from config import accesslog
 from config import chatlog
+from config import commands
 
 
 bot = TeeBot.TeeBot(hostname, port, password) #Moved hostname, port and password to config file.
@@ -94,13 +95,21 @@ while True:
                         bot.writeLine("restart")
 
                 if event[-1] == "CHAT":
+
                     msg = event[1]
                     nick = event[0]
                     id = event[2]
                     with open(chatlog, "a", encoding="utf-8") as chatlogi:
                         time1 = time.strftime("%c", time.localtime())
                         chatlogi.write("[{}] ".format(time1) + "[{0}] ".format(nick.decode()) + msg.decode() + "\n")
-
+                    if "!" == msg.decode()[0]:
+                        with open(commands, "r", encoding="utf-8") as cmds:
+                            msgg = msg.decode()
+                            lines = cmds.readlines()
+                            for x in lines:
+                                split = x.split(" _ ")
+                                if split[0] == msgg:
+                                    bot.say(split[1].rstrip("\n"))
                     if "/stats" == msg.decode():
                         tee = bot.get_Tee(id)
                         bot.say("Player: " + tee.get_nick().decode('utf-8'))
