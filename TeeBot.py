@@ -109,8 +109,8 @@ class TeeBot(object):
             pass
 
     def shutdown(self, victim_tee, killer_tee, spree):
-        self.writeLine(
-            "broadcast {0}'s {2} kill spree was shutdown by {1}!".format(victim_tee.get_nick().decode(),
+        self.brd(
+            "{0}'s {2} kill spree was shutdown by {1}!".format(victim_tee.get_nick().decode(),
                                                                          killer_tee.get_nick().decode(), str(spree)))
 
     def get_Teelista(self):
