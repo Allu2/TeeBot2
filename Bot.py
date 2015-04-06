@@ -122,6 +122,6 @@ while True:
                     pass
             else:
                 pass
-    except (KeyError, TypeError, AttributeError, NameError) as e:
+    except (KeyError, TypeError, AttributeError, NameError, UnicodeDecodeError) as e:
         bot.debug("We got an error 1: {0}".format(e), "CRITICAL")
         bot.writeLine("status")
