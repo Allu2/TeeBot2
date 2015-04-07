@@ -36,6 +36,7 @@ class TeeBot(object):
         self.address = host + ":" + str(port)
         self.teelst = Tees.Tees()
         self.events = Events_TeeBot.Events()
+        self.name = "TeeBot3.01"
 
     @property
     def connect(self):
@@ -66,7 +67,7 @@ class TeeBot(object):
         >>>
         """
         message = "[" + str(reason) + "]: " + str(msg)
-        debug_level = 3
+        debug_level = 0
         method = "terminal"
         debug2 = ["KILL", "PLAYER"]
         debug1 = ["CHAT", "CRITICAL", "BROADCAST", "CONSOLE"]
@@ -92,10 +93,10 @@ class TeeBot(object):
 
     def echo(self, message):
         # self.debug("TeeBot2.12: " + message, "CONSOLE")
-        self.writeLine('echo "TeeBot2.12: ' + message.replace('"', "'") + "\"'")
+        self.writeLine('echo "'+self.name+': ' + message.replace('"', "'") + "\"'")
     def say(self, message):
         # self.debug("TeeBot2.12: " + message, "CHAT")
-        self.writeLine('say "TeeBot2.12: ' + message.replace('"', "'") + "\"'")
+        self.writeLine('say "'+self.name+': ' + message.replace('"', "'") + "\"'")
 
     def brd(self, message):
         # self.debug("TeeBot2.11: " + message, "BROADCAST")
@@ -107,7 +108,26 @@ class TeeBot(object):
         if (spree % 5) == 0 and spree != 0:
             self.brd(tee.get_nick().decode('utf-8') + " is on a killing spree with " + str(tee.get_spree()) + " kills!")
             pass
-
+    def Multikill(self, id):
+        tee = self.get_Teelista().get(id)
+        multikill = tee.multikill
+        if multikill>=2:
+            if multikill == 2:
+                self.brd(tee.get_nick().decode('utf-8') + " DOUBLEKILL!")
+                pass
+            if multikill == 3:
+                self.brd(tee.get_nick().decode('utf-8') + " TRIPLEKILL!")
+                pass
+            if multikill == 4:
+                self.brd(tee.get_nick().decode('utf-8') + " QUODRAKILL!!")
+                pass
+            if multikill == 5:
+                self.brd(tee.get_nick().decode('utf-8') + " PENTAKILL!")
+                pass
+            else:
+                pass
+        else:
+            pass
     def shutdown(self, victim_tee, killer_tee, spree):
         self.brd(
             "{0}'s {2} kill spree was shutdown by {1}!".format(victim_tee.get_nick().decode(),

@@ -31,12 +31,13 @@ from config import banned_nicks
 from config import accesslog
 from config import chatlog
 from config import commands
-
+import plugin_loader
 
 bot = TeeBot.TeeBot(hostname, port, password) #Moved hostname, port and password to config file.
 con = bot.connect
 bot.say("Connected.")
 bot.writeLine("status")
+pl_loader = plugin_loader.Plugin_loader(bot)
 check = 5
 ticks = 0
 while True:
@@ -53,25 +54,7 @@ while True:
         else:
             event = bot.get_Event(line)
             if event is not None:
-                if event[-1] == "KILL" and event[-3] != b'-3':
-                    # bot.debug("We got event: {}".format(event), "DEBUG")
-                    try:
-                        killer_tee = bot.get_Tee(event[0])
-                    except (KeyError, NameError) as e:
-                        bot.debug("Tee didn't exist! Updating player list!", "DEBUG")
-                        bot.writeLine("status")
-                    killer_tee.set_spree(killer_tee.get_spree() + 1)
-                    if killer_tee.get_idnum() == event[2]:
-                        killer_tee.set_spree(0)
-
-                    else:
-                        victim_tee = bot.get_Tee(event[2])
-                        if victim_tee.get_spree() >= 5:
-                            t = threading.Timer(5, bot.shutdown, args=[victim_tee, killer_tee, victim_tee.get_spree()])
-                            t.start()
-
-                        victim_tee.set_spree(0)
-                        bot.killSpree(event[0])
+                pl_loader.event_handler(event)
                 if event[-1] == "NICK CHANGE":
                     bot.writeLine("status")
                 if event[-1] == "STATUS MESSAGE":
@@ -93,31 +76,6 @@ while True:
                     tees = len(bot.get_Teelista().keys())
                     if tees == 0:
                         bot.writeLine("restart")
-
-                if event[-1] == "CHAT":
-
-                    msg = event[1]
-                    nick = event[0]
-                    id = event[2]
-                    with open(chatlog, "a", encoding="utf-8") as chatlogi:
-                        time1 = time.strftime("%c", time.localtime())
-                        chatlogi.write("[{}] ".format(time1) + "[{0}] ".format(nick.decode()) + msg.decode() + "\n")
-                    if "!" == msg.decode()[0]:
-                        with open(commands, "r", encoding="utf-8") as cmds:
-                            msgg = msg.decode()
-                            lines = cmds.readlines()
-                            for x in lines:
-                                split = x.split(" _ ")
-                                if split[0] == msgg:
-                                    bot.say(split[1].rstrip("\n"))
-                    if "/stats" == msg.decode():
-                        tee = bot.get_Tee(id)
-                        bot.say("Player: " + tee.get_nick().decode('utf-8'))
-                        bot.say("Largest killing spree: " + str(tee.largest_spree))
-                        bot.say("Largest multikill: " + str(tee.largest_multikill))
-                        bot.say("Total kills: " + str(tee.kills))
-                    if "/pause" == msg.decode():
-                        bot.say("One does not simply pause an online game!")
                 else:
                     pass
             else:
