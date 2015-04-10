@@ -124,6 +124,17 @@ class TeeBot(object):
             if multikill == 5:
                 self.brd(tee.get_nick().decode('utf-8') + " PENTAKILL!")
                 pass
+            if multikill >=6:
+                self.brd(tee.get_nick().decode('utf-8') + " IS A BADASS!")
+                self.writeLine("pause")
+                self.say("Alright stop, everybody stop!")
+                time.sleep(1)
+                self.say("Someone just killed over 5 people in a multikill..")
+                time.sleep(2)
+                self.say("That was damn AMAZING!")
+                time.sleep(2)
+                self.say("Damn.. Ok guys, continue, just had to take a moment to point out this epic achievement.")
+                self.writeLine("pause")
             else:
                 pass
         else:

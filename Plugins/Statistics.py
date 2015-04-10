@@ -4,5 +4,5 @@ class Stats:
         self.handle_events = ["NOTHING"]
         pass
     def handle(self, event, bot):
-        print("Statistics is handling this.")
+        bot.debug("Statistics is handling this.")
         '''To be implemented :P'''

@@ -106,8 +106,11 @@ class Events():
                     return lst
                 else:
                     return ["SERVER SAY"]
-        if splitted_line[0] == b"[Console]":
-            return ["CONSOLE MESSAGE"]
+        if splitted_line[0] == b"[Console]:":
+            if b"!reload" in line:
+                return ["RELOAD ORDER"]
+            else:
+                return ["CONSOLE MESSAGE"]
         if (splitted_line[0] == b"[Server]:" and (b"id=" in splitted_line[1])) and splitted_line[-1] != b"connecting\n":
             result = re.search(b"id=(\d+) addr=(.+):(\d+) name='(.+)' score=(.+)", line)
             lst = list(result.groups())
@@ -127,6 +130,7 @@ class Events():
                 return ["UNKNOWN"]
         else:
             return ["UNKNOWN"]
+            #b'[Console]: hei\n'
 
     def conversation(self, line):
         """

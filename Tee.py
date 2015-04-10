@@ -44,20 +44,20 @@ class Tee(object):
     def set_spree(self, spree):
         now = time.time()
 
-        if spree > self.largest_spree:
-            self.largest_spree = spree
-        if now - self.lastkilltime <= 2:
-            self.multikill += 1
-        if now - self.lastkilltime > 2:
-            self.multikill = 1
+        if spree > 0:
+            if spree > self.largest_spree:
+                self.largest_spree = spree
+            if now - self.lastkilltime <= 2:
+                self.multikill += 1
+            if now - self.lastkilltime > 2:
+                self.multikill = 1
 
-        if self.multikill > self.largest_multikill:
-            self.largest_multikill = self.multikill
+            if self.multikill > self.largest_multikill:
+                self.largest_multikill = self.multikill
 
-        self.lastkilltime = now
+            self.lastkilltime = now
         self.spree = spree
         self.kills += 1
-
 
     def get_nick(self):
         return self.nick

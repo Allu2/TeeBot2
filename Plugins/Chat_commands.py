@@ -6,7 +6,7 @@ class Chat:
         self.commands = "commands.cfg"
         pass
     def handle(self, event, bot):
-        print("Chat_Commands is handling this.")
+        bot.debug("Chat_Commands is handling this.","PLUGIN")
         msg = event[1]
         nick = event[0]
         id = event[2]

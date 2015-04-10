@@ -19,8 +19,7 @@
 #  MA 02110-1301, USA.
 #  
 #  
-
-import time
+import time, importlib
 import threading
 
 import TeeBot
@@ -54,6 +53,8 @@ while True:
         else:
             event = bot.get_Event(line)
             if event is not None:
+                if event[-1] == "RELOAD ORDER":
+                    importlib.reload(pl_loader)
                 pl_loader.event_handler(event)
                 if event[-1] == "NICK CHANGE":
                     bot.writeLine("status")
