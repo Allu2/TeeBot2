@@ -13,9 +13,11 @@ class Spree:
             except (KeyError, NameError) as e:
                 bot.debug("Tee didn't exist! Updating player list!", "DEBUG")
                 bot.writeLine("status")
-            killer_tee.set_spree(killer_tee.get_spree() + 1)
             if killer_tee.get_idnum() == event[2]: #In case of suicide
                 killer_tee.set_spree(0)
+            else:
+                killer_tee.set_spree(killer_tee.get_spree() + 1)
+
 
 
             else:
