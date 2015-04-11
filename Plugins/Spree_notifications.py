@@ -15,12 +15,10 @@ class Spree:
                 bot.writeLine("status")
             if killer_tee.get_idnum() == event[2]: #In case of suicide
                 killer_tee.set_spree(0)
+
+
             else:
                 killer_tee.set_spree(killer_tee.get_spree() + 1)
-
-
-
-            else:
                 victim_tee = bot.get_Tee(event[2])
                 if victim_tee.get_spree() >= 5:
                     t = threading.Timer(5, bot.shutdown, args=[victim_tee, killer_tee, victim_tee.get_spree()])
