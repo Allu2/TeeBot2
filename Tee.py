@@ -22,6 +22,7 @@
 #  
 
 import time
+from Plugins import ai
 
 
 class Tee(object):
@@ -37,7 +38,8 @@ class Tee(object):
         self.multikill = 1
         self.largest_multikill = 0
         self.kills = 0
-
+        self.ai = ai.Ai("./Plugins/brain")
+        self.attributes = {}
     def get_spree(self):
         return self.spree
 

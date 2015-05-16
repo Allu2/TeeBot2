@@ -28,3 +28,13 @@ class Plugin_loader:
         self.register(Statistics.Stats())
         from Plugins import Chat_Logger
         self.register(Chat_Logger.Logger())
+        from Plugins import Whois
+        self.register(Whois.Whois())
+        from Plugins import ChatBot
+        self.register(ChatBot.ChatBot())
+        from Plugins import Domination
+        self.register(Domination.Domination())
+        from Plugins import Essentials
+        self.register(Essentials.Essentials())
+        from Plugins import Blacky_Shotgun
+        self.register(Blacky_Shotgun.Blacky_Shotgun())

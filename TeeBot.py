@@ -26,7 +26,7 @@ import time
 import Tees
 import Events_TeeBot
 from config import accesslog
-
+from config import nick
 
 class TeeBot(object):
     def __init__(self, host, port, passwd):
@@ -36,7 +36,7 @@ class TeeBot(object):
         self.address = host + ":" + str(port)
         self.teelst = Tees.Tees()
         self.events = Events_TeeBot.Events()
-        self.name = "TeeBot3.01"
+        self.name = nick
 
     @property
     def connect(self):

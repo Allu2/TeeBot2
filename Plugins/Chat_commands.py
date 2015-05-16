@@ -1,4 +1,5 @@
 __author__ = 'Aleksi'
+from subprocess import check_output
 class Chat:
 
     def __init__(self):
@@ -28,5 +29,10 @@ class Chat:
             bot.say("Largest killing spree: " + str(tee.largest_spree))
             bot.say("Largest multikill: " + str(tee.largest_multikill))
             bot.say("Total kills: " + str(tee.kills))
-        if "/pause" == msg.decode():
+        if "/pause" == msg.decode() or "/stop" == msg.decode():
             bot.say("One does not simply pause an online game!")
+        if "/lag" == msg.decode():
+            lag = str(check_output(["ifstat", "1", "1"])).split()
+            down = lag[-2]
+            up = lag[-1].replace("\\", "").replace("n", "").replace("\n","").replace("'", "")
+            bot.say("In: {}kb/s  Out: {}kb/s.".format(down, up))

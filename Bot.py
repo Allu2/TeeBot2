@@ -54,7 +54,8 @@ while True:
             event = bot.get_Event(line)
             if event is not None:
                 if event[-1] == "RELOAD ORDER":
-                    importlib.reload(pl_loader)
+                    bot.debug("Reloaded plugins", "DEBUG")
+                    importlib.reload(plugin_loader)
                 pl_loader.event_handler(event)
                 if event[-1] == "NICK CHANGE":
                     bot.writeLine("status")

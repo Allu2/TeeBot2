@@ -159,9 +159,9 @@ class Events():
             return "kill command"
         if id == -3:
             return "changing team/leaving"
-        if id == 0:
-            return "pistol"
         if id == 1:
+            return "pistol"
+        if id == 0:
             return "hammer"
         if id == 2:
             return "shotgun"
