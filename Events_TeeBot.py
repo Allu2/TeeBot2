@@ -95,7 +95,11 @@ class Events():
                 result = re.search(b"team_join player='(\d+):(.+)'", line)
                 groups = result.groups()
                 lst = list(result.groups())
+                moved = False
+                if "m_Team=" in line.split(b" ")[-1]:
+                    moved = True
                 lst.append(str(line.split(b" ")[-1]).replace("m_Team=", "").replace("team=", "").replace("\\n", "").replace("b'", "").replace("'", ""))
+                lst.append(moved)
                 lst.append("TEAM_JOIN")
                 print(lst)
                 return lst
