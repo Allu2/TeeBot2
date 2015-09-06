@@ -21,73 +21,96 @@
 #  
 #  
 
-import time
-from Plugins import ai
+import time, json
+#from Plugins import ai
 
 
 class Tee(object):
     def __init__(self, idnum, nick, ip, port, score, spree):
-        self.nick = nick
-        self.idnum = idnum
-        self.ip = ip
-        self.port = port
-        self.score = score
-        self.spree = spree
-        self.largest_spree = 0
-        self.lastkilltime = 0
-        self.multikill = 1
-        self.largest_multikill = 0
-        self.kills = 0
-        self.ai = ai.Ai("./Plugins/brain")
-        self.attributes = {}
+
+        self.attributes = {"nick": nick,
+                           "idnum": idnum,
+                           "ip": ip,
+                           "port": port,
+                           "score": score,
+                           "spree": spree,
+                           "largest_spree": 0,
+                           "multikill": 1,
+                           "largest_multikill": 0,
+                           "kills": 0,
+                           "team": None}
+
     def get_spree(self):
-        return self.spree
+        return self.attributes["spree"]
 
     def set_spree(self, spree):
         now = time.time()
-
         if spree > 0:
-            if spree > self.largest_spree:
-                self.largest_spree = spree
+            if spree > self.attributes["largest_spree"]:
+                self.attributes["largest_spree"] = spree
             if now - self.lastkilltime <= 2:
-                self.multikill += 1
+                self.attributes["multikill"] += 1
             if now - self.lastkilltime > 2:
-                self.multikill = 1
+                self.attributes["multikill"] = 1
 
-            if self.multikill > self.largest_multikill:
-                self.largest_multikill = self.multikill
+            if self.attributes["multikill"] > self.attributes["largest_multikill"]:
+                self.set_largest_multikill(self.attributes["multikill"])
 
             self.lastkilltime = now
-        self.spree = spree
-        self.kills += 1
+        self.attributes["spree"] = spree
+        self.attributes["kills"] += 1
+    def get_idnum(self):
+        return self.attributes["idnum"]
+
+    def set_idnum(self, idnum):
+        self.attributes["idnum"] = idnum
 
     def get_nick(self):
-        return self.nick
+        return self.attributes["nick"]
 
     def set_nick(self, nick):
-        self.nick = nick
+        self.attributes["nick"] = nick
 
     def get_ip(self):
-        return self.ip
+        return self.attributes["ip"]
+
+    def set_ip(self, ip):
+        self.attributes["ip"] = ip
 
     def get_port(self):
-        return self.port
+        return self.attributes["port"]
+
+    def set_port(self, port):
+        self.attributes["port"] = port
 
     def get_idnum(self):
-        return self.idnum
+        return self.attributes["idnum"]
 
     def get_score(self):
-        return self.score
+        return self.attributes["score"]
 
     def set_score(self, score):
-        self.score = score
+        self.attributes["score"] = score
 
     def set_multikill(self, multikill):
-        self.multikill = multikill
+        self.attributes["multikill"] = multikill
 
     def get_multikill(self):
-        return self.multikill
+        return self.attributes["multikill"]
+
+    def get_largest_spree(self):
+        return self.attributes["largest_spree"]
+
+    def get_largest_multikill(self):
+        return self.attributes["largest_multikill"]
+
+    def set_largest_multikill(self, largest_multikill):
+        self.attributes["largest_multikill"] = largest_multikill
+
+    @property
+    def tojson(self):
+        return json.dumps(self.attributes, indent=3)
 
     def __str__(self):
-        return ( str(self.nick) + ' comes from IP adress: ' + str(self.ip) + ':' + str(self.port) + ' and has player ID: ' + str(
-            self.idnum) + ' and has ' + str(self.score) + ' points.')
+        return ( str(self.attributes["nick"]) + ' comes from IP adress: ' + str(self.attributes["ip"]) + ':' + str(self.attributes["port"]) + ' and has player ID: ' + str(
+            self.attributes["idnum"]) + ' and has ' + str(self.attributes["score"]) + ' points.')

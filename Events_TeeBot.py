@@ -90,11 +90,26 @@ class Events():
                 lst = list(result.groups())
                 lst.append("CAPTURE") #player_id, player_name, type of event
                 return lst
-        if splitted_line[0] == b"[chat]:":
+            if splitted_line[1] == b"team_join":
+                # b"[game]: team_join player='0:LeveL 6' team=0\n"
+                result = re.search(b"team_join player='(\d+):(.+)'", line)
+                groups = result.groups()
+                lst = list(result.groups())
+                lst.append(str(line.split(b" ")[-1]).replace("m_Team=", "").replace("team=", "").replace("\\n", "").replace("b'", "").replace("'", ""))
+                lst.append("TEAM_JOIN")
+                print(lst)
+                return lst
+        if (line.split(b" ")[0] == b"[chat]:" or line.split(b" ")[0] == b"[teamchat]:"):
             if splitted_line[1] != b"***":
-                lst = self.conversation(line)
+                if b"[teamchat]" in line.split(b" ")[0]:
+                    lst = self.conversation(line, True)
+                else:
+                    lst = self.conversation(line, False)
                 if lst[-1] != "NONE":
-                    lst.append("CHAT")
+                    if b"[teamchat]" in line.split(b" ")[0]:
+                        lst.append("TEAMCHAT")
+                    else:
+                        lst.append("CHAT")
                 else:
                     lst.append("UNKNOWN")
                 return lst
@@ -102,19 +117,19 @@ class Events():
                 if b"' changed name to '" in line:
                     result = re.search(b"'(.+)' changed name to '(.+)'", line)
                     lst = list(result.groups())  # old, new
-                    lst.append("NICK CHANGE")
+                    lst.append("NICK_CHANGE")
                     return lst
                 else:
                     return ["SERVER SAY"]
         if splitted_line[0] == b"[Console]:":
             if b"!reload" in line:
-                return ["RELOAD ORDER"]
+                return ["RELOAD_ORDER"]
             else:
-                return ["CONSOLE MESSAGE"]
+                return [splitted_line[1], "CONSOLE_MESSAGE"]
         if (splitted_line[0] == b"[Server]:" and (b"id=" in splitted_line[1])) and splitted_line[-1] != b"connecting\n":
             result = re.search(b"id=(\d+) addr=(.+):(\d+) name='(.+)' score=(.+)", line)
             lst = list(result.groups())
-            lst.append("STATUS MESSAGE")
+            lst.append("STATUS_MESSAGE")
             return lst  # id, ip, port, nick, score, event type
         if splitted_line[0] == b"[server]:":
             if splitted_line[1] == b"client":
@@ -132,7 +147,7 @@ class Events():
             return ["UNKNOWN"]
             #b'[Console]: hei\n'
 
-    def conversation(self, line):
+    def conversation(self, line, teamchat):
         """
         ## conversation()
         Conversation is the function that handles chat messages and parses information from them.
@@ -140,12 +155,16 @@ class Events():
         if the information is correct "none" is False since we do have info
         if we got wrong "non chat" line we return none with value True, after all we have no info at all.
         """
-        if line.split(b" ")[0] == b"[chat]:" and line.split(b" ")[1] != b"***":
-            result = re.search(b"\[chat\]: (\d+):(-\d):(.+): (.+)", line)
+        if (line.split(b" ")[0] == b"[chat]:" or line.split(b" ")[0] == b"[teamchat]:") and line.split(b" ")[1] != b"***":
+            if teamchat:
+                result = re.search(b"\[teamchat\]: (\d+):(-\d):(.+): (.+)", line)
+            else:
+                result = re.search(b"\[chat\]: (\d+):(-\d):(.+): (.+)", line)
             name = result.groups()[2]
             ide = result.groups()[0]
             message = result.groups()[-1]
-            info = [name, message, ide]
+            team_chat = result.groups()[1]
+            info = [name, message, ide, team_chat]
             return info
         #[chat]: 0:-2:LeveL 5: mo
         else:

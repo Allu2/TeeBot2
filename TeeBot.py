@@ -39,9 +39,15 @@ class TeeBot(object):
         self.name = nick
 
     @property
+    def player_count(self):
+        return len(self.teelst.get_TeeLst().keys())
+
+    @property
     def connect(self):
+        self.debug("Connecting to server..", "DEBUG")
         self.tn = telnetlib.Telnet(self.host, self.port)
-        self.tn.read_until(b"Enter password:\n")
+        self.debug("Telnet Object created.", "DEBUG")
+        lines = self.tn.read_until(b"Enter password:")
         self.tn.write(str(self.passwd).encode('utf-8') + b'\n')
         return self.tn
 
@@ -67,7 +73,7 @@ class TeeBot(object):
         >>>
         """
         message = "[" + str(reason) + "]: " + str(msg)
-        debug_level = 0
+        debug_level = 3
         method = "terminal"
         debug2 = ["KILL", "PLAYER"]
         debug1 = ["CHAT", "CRITICAL", "BROADCAST", "CONSOLE"]
@@ -110,7 +116,7 @@ class TeeBot(object):
             pass
     def Multikill(self, id):
         tee = self.get_Teelista().get(id)
-        multikill = tee.multikill
+        multikill = tee.get_multikill()
         if multikill>=2:
             if multikill == 2:
                 self.brd(tee.get_nick().decode('utf-8') + " DOUBLEKILL!")
@@ -162,16 +168,16 @@ class TeeBot(object):
         try:
             tee = self.teelst.get_Tee(event[0])
             if tee.get_nick().decode() != event[3].decode():
-                old_ip = tee.ip
-                tee.nick = event[3]
-                tee.score = event[4]
-                tee.ip = event[1]
-                tee.port = event[2]
-                if old_ip != tee.ip:
+                old_ip = tee.get_ip()
+                tee.set_nick(event[3])
+                tee.set_score(event[4])
+                tee.set_ip(event[1])
+                tee.set_port(event[2])
+                if old_ip != tee.get_ip():
                     with open(accesslog, "a", encoding="utf-8") as accesslogi:
                         time1 = time.strftime("%c", time.localtime())
-                        accesslogi.write("[{}] ".format(time1) + "{} joined the server ({})".format(tee.nick.decode(),
-                                                                                                    tee.ip.decode()) + "\n")
+                        accesslogi.write("[{}] ".format(time1) + "{} joined the server ({})".format(tee.get_nick().decode(),
+                                                                                                    tee.get_ip().decode()) + "\n")
                 else:
                     pass
         except AttributeError as e:
@@ -191,7 +197,7 @@ class TeeBot(object):
         return self.teelst.get_TeeLst()
 
     def get_Leaves(self, ide):
-        nick = self.teelst.get_Tee(ide).nick
+        nick = self.teelst.get_Tee(ide).get_nick()
         self.teelst.rm_Tee(ide)
         return nick
 

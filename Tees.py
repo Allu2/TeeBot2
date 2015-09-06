@@ -28,7 +28,7 @@ class Tees(object):
 
     def add_Tee(self, idnum, nick, ip, port, score, spree):
         tee = Tee.Tee(idnum, nick, ip, port, score, spree)
-        self.teelst[tee.idnum] = tee
+        self.teelst[tee.attributes["idnum"]] = tee
 
     def get_Tee(self, player_id):
         return self.teelst[player_id]

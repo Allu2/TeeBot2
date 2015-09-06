@@ -44,11 +44,14 @@ while True:
     try:
         try:
             line = bot.readLine()
-            bot.debug(line, "RAW")
+            if line != b"\n":
+                bot.debug(line, "RAW")
         except Exception as e:
             bot.debug("Error: " + e, "CRITICAL")
             exit()
-        if b"[server]:" in line.split(b" ")[0] and (b"player" in line.split(b" ")[1] and b"has" in line.split(b" ")[2]):
+        if line == b"\n":
+            pass
+        elif b"[server]:" in line.split(b" ")[0] and (b"player" in line.split(b" ")[1] and b"has" in line.split(b" ")[2]):
             bot.writeLine("status")
         else:
             event = bot.get_Event(line)
@@ -56,7 +59,6 @@ while True:
                 if event[-1] == "RELOAD ORDER":
                     bot.debug("Reloaded plugins", "DEBUG")
                     importlib.reload(plugin_loader)
-                pl_loader.event_handler(event)
                 if event[-1] == "NICK CHANGE":
                     bot.writeLine("status")
                 if event[-1] == "STATUS MESSAGE":
@@ -68,18 +70,22 @@ while True:
                 if event[-1] == "LEAVE":
                     with open(accesslog, "a", encoding="utf-8") as accesslogi:
                         tee = bot.get_Tee(event[0])
-                        nick = tee.nick
-                        ip = tee.ip
+                        nick = tee.get_nick()
+                        ip = tee.get_ip()
                         time1 = time.strftime("%c", time.localtime())
                         accesslogi.write(
                             "[{}] ".format(time1) + "{} left the server ({})".format(nick.decode(), ip.decode()) + "\n")
                     bot.debug("{} has left the game.".format(bot.get_Leaves(event[0]).decode()), "PLAYER")
                     bot.writeLine("status")
-                    tees = len(bot.get_Teelista().keys())
+                    tees = bot.player_count
                     if tees == 0:
                         bot.writeLine("restart")
+
                 else:
                     pass
+                if event[-1] == "UNKNOWN":
+                    event = [line, "UNKNOWN"]
+                pl_loader.event_handler(event)
             else:
                 pass
     except (KeyError, TypeError, AttributeError, NameError, UnicodeDecodeError) as e:

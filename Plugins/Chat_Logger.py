@@ -5,7 +5,7 @@ class Logger:
         self.handle_events = ["CHAT"]
         self.chatlog = "chat.log"
         pass
-    def handle(self, event, bot):
+    def handle(self, event, bot, plugins):
         bot.debug("Chat_Logger is handling this.", "PLUGIN")
         msg = event[1]
         nick = event[0]

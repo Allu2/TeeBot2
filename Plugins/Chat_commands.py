@@ -6,7 +6,7 @@ class Chat:
         self.handle_events = ["CHAT"]
         self.commands = "commands.cfg"
         pass
-    def handle(self, event, bot):
+    def handle(self, event, bot, plugins):
         bot.debug("Chat_Commands is handling this.","PLUGIN")
         msg = event[1]
         nick = event[0]
@@ -26,9 +26,9 @@ class Chat:
         if "/stats" == msg.decode():
             tee = bot.get_Tee(id)
             bot.say("Player: " + tee.get_nick().decode('utf-8'))
-            bot.say("Largest killing spree: " + str(tee.largest_spree))
-            bot.say("Largest multikill: " + str(tee.largest_multikill))
-            bot.say("Total kills: " + str(tee.kills))
+            bot.say("Largest killing spree: " + str(tee.get_largest_spree()))
+            bot.say("Largest multikill: " + str(tee.get_largest_multikill()))
+            bot.say("Total kills: " + str(tee.attributes["kills"]))
         if "/pause" == msg.decode() or "/stop" == msg.decode():
             bot.say("One does not simply pause an online game!")
         if "/lag" == msg.decode():

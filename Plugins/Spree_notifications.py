@@ -4,7 +4,7 @@ class Spree:
     def __init__(self):
         self.handle_events = ["KILL"]
         pass
-    def handle(self, event, bot):
+    def handle(self, event, bot, plugins):
         bot.debug("Spree_notifications is handling this.", "PLUGIN")
         if event[-1] == "KILL" and event[-3] != b'-3':
             # bot.debug("We got event: {}".format(event), "DEBUG")
