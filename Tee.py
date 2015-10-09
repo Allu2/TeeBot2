@@ -29,7 +29,7 @@ class Tee(object):
     def __init__(self, idnum, nick, ip, port, score, spree):
 
         self.attributes = {"nick": nick,
-                           "id": idnum,
+                           "id": int(idnum),
                            "ip": ip,
                            "port": port,
                            "score": score,
@@ -63,7 +63,7 @@ class Tee(object):
         return self.attributes["idnum"]
 
     def set_idnum(self, idnum):
-        self.attributes["idnum"] = idnum
+        self.attributes["idnum"] = int(idnum)
 
     def get_nick(self):
         return self.attributes["nick"]
