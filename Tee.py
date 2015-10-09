@@ -38,6 +38,7 @@ class Tee(object):
                            "multikill": 1,
                            "largest_multikill": 0,
                            "kills": 0,
+                           "lastkilltime": 0,
                            "team": None}
 
     def get_spree(self):
@@ -48,15 +49,15 @@ class Tee(object):
         if spree > 0:
             if spree > self.attributes["largest_spree"]:
                 self.attributes["largest_spree"] = spree
-            if now - self.lastkilltime <= 2:
+            if now - self.attributes["lastkilltime"] <= 2:
                 self.attributes["multikill"] += 1
-            if now - self.lastkilltime > 2:
+            if now - self.attributes["lastkilltime"] > 2:
                 self.attributes["multikill"] = 1
 
             if self.attributes["multikill"] > self.attributes["largest_multikill"]:
                 self.set_largest_multikill(self.attributes["multikill"])
 
-            self.lastkilltime = now
+            self.attributes["lastkilltime"] = now
         self.attributes["spree"] = spree
         self.attributes["kills"] += 1
     def get_idnum(self):
