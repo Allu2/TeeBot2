@@ -60,10 +60,10 @@ class Tee(object):
         self.attributes["spree"] = spree
         self.attributes["kills"] += 1
     def get_idnum(self):
-        return self.attributes["idnum"]
+        return self.attributes["id"]
 
     def set_idnum(self, idnum):
-        self.attributes["idnum"] = int(idnum)
+        self.attributes["id"] = int(idnum)
 
     def get_nick(self):
         return self.attributes["nick"]
@@ -82,9 +82,6 @@ class Tee(object):
 
     def set_port(self, port):
         self.attributes["port"] = port
-
-    def get_idnum(self):
-        return self.attributes["idnum"]
 
     def get_score(self):
         return self.attributes["score"]
