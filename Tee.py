@@ -29,7 +29,7 @@ class Tee(object):
     def __init__(self, idnum, nick, ip, port, score, spree):
 
         self.attributes = {"nick": nick,
-                           "idnum": idnum,
+                           "id": idnum,
                            "ip": ip,
                            "port": port,
                            "score": score,

@@ -20,8 +20,8 @@
 #  
 #  
 import time, importlib
-import threading
-
+import threading, multiprocessing
+from multiprocessing import Process, Queue
 import TeeBot
 from config import password
 from config import port
@@ -32,7 +32,17 @@ from config import chatlog
 from config import commands
 import plugin_loader
 
+from flask import Flask
+from flask_restful import Resource, Api
+
+
+app = Flask(__name__)
+api = Api(app)
+
+
+
 bot = TeeBot.TeeBot(hostname, port, password) #Moved hostname, port and password to config file.
+
 con = bot.connect
 bot.say("Connected.")
 bot.writeLine("status")
@@ -47,7 +57,7 @@ while True:
             if line != b"\n":
                 bot.debug(line, "RAW")
         except Exception as e:
-            bot.debug("Error: " + e, "CRITICAL")
+            bot.debug("Error: " + repr(e), "CRITICAL")
             exit()
         if line == b"\n":
             pass
