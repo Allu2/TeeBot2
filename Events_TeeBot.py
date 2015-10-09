@@ -45,7 +45,6 @@ class Events():
 
     def game_events(self, line):
         import re
-        logger.debug("We got line:\n{}".format(line))
         splitted_line = line.split(b" ")
         #TODO: Broadcast messages, say messages, votes...
         if splitted_line[0] == b"[game]:":

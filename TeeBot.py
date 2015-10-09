@@ -38,6 +38,9 @@ class TeeBot(object):
         self.events = Events_TeeBot.Events()
         self.name = nick
         self.logger = logging.getLogger("Bot")
+        self.debug = self.logger.debug
+        self.info = self.logger.info
+        self.exception = self.logger.exception
 
     @property
     def player_count(self):
@@ -45,50 +48,21 @@ class TeeBot(object):
 
     @property
     def connect(self):
-        self.debug("Connecting to server..", "DEBUG")
+        self.debug("Connecting to server..")
         self.tn = telnetlib.Telnet(self.host, self.port)
-        self.debug("Telnet Object created.", "DEBUG")
+        self.debug("Telnet Object created.")
         lines = self.tn.read_until(b"Enter password:")
         self.tn.write(str(self.passwd).encode('utf-8') + b'\n')
         return self.tn
 
     def talk(self, msg, method):
-        self.logger.debug(msg)
+        #self.logger.debug(msg)
         if method == "game_chat":
             self.say(msg)
         elif method == "terminal":
             pass
         else:
             pass
-    def debug(self, msg, reason):
-        """
-        ## debug()
-        debug() is well.. what it says, its used to provide easy debug messages to the console.
-        Usage:
-        import Events_teebot
-        x = Events_TeeBot.Events()
-        x.debug("This is a debug message", "[INFO]")
-
-        Output:
-        >>> x.debug("This is a debug message", "[INFO]")
-        [INFO]: This is a debug message
-        >>>
-        """
-        message = "[" + str(reason) + "]: " + str(msg)
-        debug_level = 3
-        method = "terminal"
-        debug2 = ["KILL", "PLAYER"]
-        debug1 = ["CHAT", "CRITICAL", "BROADCAST", "CONSOLE"]
-
-        if debug_level >= 3:
-            self.talk(message, method)
-        elif debug_level == 2 and (reason in debug2) or (reason in debug1):
-            self.talk(message, method)
-        elif debug_level <= 1 and reason in debug1:
-            self.talk(message, method)
-        else:
-            pass
-            # self.talk(message, "terminal")
 
     def readLine(self):
         return self.tn.read_until(b"\n")
@@ -100,21 +74,23 @@ class TeeBot(object):
         return self.tn.read_until(str(until).encode('utf-8'), 0.6)
 
     def echo(self, message):
-        # self.debug("TeeBot2.12: " + message, "CONSOLE")
+        self.debug("Echoing: {}".format(message))
         self.writeLine('echo "'+self.name+': ' + message.replace('"', "'") + "\"'")
+
     def say(self, message):
-        # self.debug("TeeBot2.12: " + message, "CHAT")
+        self.debug("Saying: {}".format(message))
         self.writeLine('say "'+self.name+': ' + message.replace('"', "'") + "\"'")
 
     def brd(self, message):
-        # self.debug("TeeBot2.11: " + message, "BROADCAST")
+        self.debug("Broadcating: {}".format(message))
         self.writeLine('broadcast "' + message.replace('"', "'") + "\"'")
 
     def killSpree(self, id):
         tee = self.get_Teelista().get(id)
         spree = tee.get_spree()
         if (spree % 5) == 0 and spree != 0:
-            self.brd(tee.get_nick().decode('utf-8') + " is on a killing spree with " + str(tee.get_spree()) + " kills!")
+            msg = tee.get_nick().decode('utf-8') + " is on a killing spree with " + str(tee.get_spree()) + " kills!"
+            self.brd(msg)
             pass
     def Multikill(self, id):
         tee = self.get_Teelista().get(id)
@@ -183,11 +159,10 @@ class TeeBot(object):
                 else:
                     pass
         except AttributeError as e:
-            self.debug("Error: {0}".format(e), "CRITICAL")
+            self.exception(e)
         except KeyError as e:
-            self.debug(
-                "Didn't find Tee: {} in player lists, adding it now:".format(event[3].decode()),
-                "PLAYER")
+            self.debug("Didn't find Tee: {} in player lists, adding it now:".format(event[3].decode()))
+            self.exception(e)
             with open(accesslog, "a", encoding="utf-8") as accesslogi:
                 nick = event[3]
                 ip = event[1]
@@ -226,9 +201,7 @@ class TeeBot(object):
         #         self.debug("Flag was Captured by " + lst[1].decode(), "FLAG")
         #TODO: Broadcast messages, say messages, votes...
         if lst[-1] != "UNKNOWN":
-            self.debug("Following event occured: " + lst[-1], "EVENT")
-        else:
-            self.debug("Following event occured: " + lst[-1], "DEBUG")
+            self.debug("Following event occured: {}".format(lst[-1]))
         return lst
 
 

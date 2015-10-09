@@ -5,7 +5,7 @@ class Stats:
         self.handle_events = ["NOTHING"]
         pass
     def handle(self, event, bot, plugins):
-        bot.debug("Statistics is handling this.", "PLUGIN")
+        bot.debug("Statistics is handling this.")
         msg = event[1]
         nick = event[0]
         id = event[2]

@@ -48,9 +48,9 @@ while True:
         try:
             line = bot.readLine()
             if line != b"\n":
-                bot.debug(line, "RAW")
+                logger.debug("We got line: {}".format(line))
         except Exception as e:
-            bot.debug("Error: " + repr(e), "CRITICAL")
+            logger.exception(e)
             exit()
         if line == b"\n":
             pass
@@ -60,7 +60,7 @@ while True:
             event = bot.get_Event(line)
             if event is not None:
                 if event[-1] == "RELOAD ORDER":
-                    bot.debug("Reloaded plugins", "DEBUG")
+                    logger.info("Reloaded plugins")
                     importlib.reload(plugin_loader)
                 if event[-1] == "NICK CHANGE":
                     bot.writeLine("status")
@@ -78,7 +78,7 @@ while True:
                         time1 = time.strftime("%c", time.localtime())
                         accesslogi.write(
                             "[{}] ".format(time1) + "{} left the server ({})".format(nick.decode(), ip.decode()) + "\n")
-                    bot.debug("{} has left the game.".format(bot.get_Leaves(event[0]).decode()), "PLAYER")
+                    logger.debug("{} has left the game.".format(bot.get_Leaves(event[0]).decode()))
                     bot.writeLine("status")
                     tees = bot.player_count
                     if tees == 0:
@@ -92,5 +92,5 @@ while True:
             else:
                 pass
     except (KeyError, TypeError, AttributeError, NameError, UnicodeDecodeError) as e:
-        bot.debug("We got an error 1: {0}".format(repr(e)), "CRITICAL")
+        logger.exception(e)
         bot.writeLine("status")
