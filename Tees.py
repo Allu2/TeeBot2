@@ -28,13 +28,13 @@ class Tees(object):
 
     def add_Tee(self, idnum, nick, ip, port, score, spree):
         tee = Tee.Tee(idnum, nick, ip, port, score, spree)
-        self.teelst[tee.attributes["idnum"]] = tee
+        self.teelst[int(tee.attributes["idnum"])] = tee
 
     def get_Tee(self, player_id):
-        return self.teelst[player_id]
+        return self.teelst[int(player_id)]
 
     def rm_Tee(self, player_id):
-        del self.teelst[player_id]
+        del self.teelst[int(player_id)]
 
     def rm_Tee_all(self):
         self.teelst = {}

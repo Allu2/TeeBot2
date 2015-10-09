@@ -156,7 +156,7 @@ class TeeBot(object):
         return self.teelst.get_TeeLst()
 
     def get_Tee(self, id):
-        return self.teelst.get_Tee(id)
+        return self.teelst.get_Tee(int(id))
 
     def updTeeList(self, event):
 
