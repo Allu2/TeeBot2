@@ -92,5 +92,5 @@ while True:
             else:
                 pass
     except (KeyError, TypeError, AttributeError, NameError, UnicodeDecodeError) as e:
-        bot.debug("We got an error 1: {0}".format(e), "CRITICAL")
+        bot.debug("We got an error 1: {0}".format(repr(e)), "CRITICAL")
         bot.writeLine("status")
