@@ -64,7 +64,7 @@ while True:
                     importlib.reload(plugin_loader)
                 if event[-1] == "NICK CHANGE":
                     bot.writeLine("status")
-                if event[-1] == "STATUS MESSAGE":
+                if event[-1] == "STATUS_MESSAGE":
                     nick = event[3]
                     ide = event[0]
                     if nick.decode() in banned_nicks:
