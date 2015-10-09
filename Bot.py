@@ -20,8 +20,7 @@
 #  
 #  
 import time, importlib
-import threading, multiprocessing
-from multiprocessing import Process, Queue
+
 import TeeBot
 from config import password
 from config import port
@@ -30,16 +29,9 @@ from config import banned_nicks
 from config import accesslog
 from config import chatlog
 from config import commands
-import plugin_loader
-
-from flask import Flask
-from flask_restful import Resource, Api
-
-
-app = Flask(__name__)
-api = Api(app)
-
-
+import plugin_loader, logging
+logging.getLogger("Bot")
+logger = logging.basicConfig()
 
 bot = TeeBot.TeeBot(hostname, port, password) #Moved hostname, port and password to config file.
 
@@ -49,6 +41,7 @@ bot.writeLine("status")
 pl_loader = plugin_loader.Plugin_loader(bot)
 check = 5
 ticks = 0
+
 while True:
     time.sleep(ticks)
     try:

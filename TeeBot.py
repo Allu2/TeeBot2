@@ -21,7 +21,7 @@
 #  
 
 import telnetlib
-import time
+import time, logging
 
 import Tees
 import Events_TeeBot
@@ -37,6 +37,7 @@ class TeeBot(object):
         self.teelst = Tees.Tees()
         self.events = Events_TeeBot.Events()
         self.name = nick
+        self.logger = logging.getLogger("Bot")
 
     @property
     def player_count(self):
@@ -52,10 +53,11 @@ class TeeBot(object):
         return self.tn
 
     def talk(self, msg, method):
+        self.logger.debug(msg)
         if method == "game_chat":
             self.say(msg)
         elif method == "terminal":
-            print(msg)
+            pass
         else:
             pass
     def debug(self, msg, reason):
