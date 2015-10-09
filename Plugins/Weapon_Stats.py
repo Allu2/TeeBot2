@@ -8,8 +8,10 @@ class Weapon_Stats:
         pass
     def handle(self, event, bot, plugins):
         bot.debug("Weapon Stats is handling this.","PLUGIN")
+        bot.logger.debug("We got event: {}".format(event))
         if event[-1] == "KILL":
             weapon = bot.events.Weaponsolv(int(event[4].decode()))
+            bot.logger.debug("We got weapon: {}".format(weapon))
             id = event[0]
             try:
                 tee = bot.get_Tee(id)

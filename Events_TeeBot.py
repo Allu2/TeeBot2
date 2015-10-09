@@ -27,8 +27,8 @@ It also supports somehow ripping information from "status" command in order to g
 With some introduction of regexp and stuff this documentation should be redone.
 """
 import re
-
-
+import logging
+logger = logging.getLogger("Bot")
 class Events():
     def msg_found(self, msg, message):
         """
@@ -45,9 +45,8 @@ class Events():
 
     def game_events(self, line):
         import re
-
+        logger.debug("We got line:\n{}".format(line))
         splitted_line = line.split(b" ")
-
         #TODO: Broadcast messages, say messages, votes...
         if splitted_line[0] == b"[game]:":
             if splitted_line[1] == b"kill" and (b"killer=" in splitted_line[2]):
@@ -176,6 +175,7 @@ class Events():
             return info
 
     def Weaponsolv(self, id):
+        id = int(id)
         if id == -1:
             return "hit on a kill tile"
         if id == -2:
@@ -197,6 +197,8 @@ class Events():
             return "something magical.."
 
     def Itemsolv(self, id1, id2):
+        id1 = int(id1)
+        id2 = int(id2)
         if id1 > 1:
             return self.Weaponsolv(id2)
         if id1 == 0:
