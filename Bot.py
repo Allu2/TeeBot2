@@ -30,9 +30,9 @@ from config import accesslog
 from config import chatlog
 from config import commands
 import plugin_loader, logging
-logging.getLogger("Bot")
-logger = logging.basicConfig()
-
+logging.basicConfig()
+logger = logging.getLogger("Bot")
+logger.setLevel(logging.DEBUG)
 bot = TeeBot.TeeBot(hostname, port, password) #Moved hostname, port and password to config file.
 
 con = bot.connect
