@@ -22,7 +22,7 @@ class Weapon_Stats:
                     print("We got weapon {}".format(weapon))
                     tee.attributes[weapon+"_kills"] = 1
             except Exception as e:
-                bot.debug("We got error {}".format(e),"CRITICAL")
+                bot.debug("We got error {}".format(repr(e)),"CRITICAL")
                 return 0
         if event[-1] == "PICKUP":
             id = event[0]
@@ -34,7 +34,7 @@ class Weapon_Stats:
                 except Exception as e:
                     tee.attributes[event[-2]+"_picks"] = 1
             except Exception as e:
-                bot.debug("We got error {}".format(e),"CRITICAL")
+                bot.debug("We got error {}".format(repr(e)),"CRITICAL")
                 return 0
         if event[-1] == "CHAT":
             msg = event[1]
