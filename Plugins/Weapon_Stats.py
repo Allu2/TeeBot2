@@ -9,10 +9,10 @@ class Weapon_Stats:
     def handle(self, event, bot, plugins):
         bot.debug("Weapon Stats is handling this.")
         bot.logger.debug("We got event: {}".format(event))
-        if event[-1] == "KILL":
-            weapon = bot.events.Weaponsolv(int(event[4].decode()))
+        if event["event_type"] == "KILL":
+            weapon = bot.events.Weaponsolv(int(event["user_weapon_id"].decode()))
             bot.debug("We got weapon: {}".format(weapon))
-            id = int(event[0])
+            id = int(event["killer_id"])
             try:
                 tee = bot.get_Tee(id)
                 try:
@@ -25,21 +25,21 @@ class Weapon_Stats:
             except Exception as e:
                 bot.exception(e)
                 return 0
-        if event[-1] == "PICKUP":
-            id = event[0]
+        if event["event_type"] == "PICKUP":
+            id = event["player_id"]
             try:
                 tee = bot.get_Tee(id)
                 try:
-                    if event[-2] in self.weapons:
-                        tee.attributes[event[-2]+"_picks"] = tee.attributes[event[-2]+"_picks"]+1
+                    if event["name"] in self.weapons:
+                        tee.attributes[event["name"]+"_picks"] = tee.attributes[event["name"]+"_picks"]+1
                 except Exception as e:
-                    tee.attributes[event[-2]+"_picks"] = 1
+                    tee.attributes[event["name"]+"_picks"] = 1
             except Exception as e:
                 bot.exception(e)
                 return 0
-        if event[-1] == "CHAT":
-            msg = event[1]
-            tee = bot.get_Tee(event[2])
+        if event["event_type"] == "CHAT":
+            msg = event["message"]
+            tee = bot.get_Tee(event["player_id"])
             for wep in self.weapons:
                 if "/"+wep == msg.decode() and tee.get_nick().decode() == "blackdevil" :
                     nick = tee.get_nick().decode()

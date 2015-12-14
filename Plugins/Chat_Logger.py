@@ -7,8 +7,8 @@ class Logger:
         pass
     def handle(self, event, bot, plugins):
         bot.debug("Chat_Logger is handling this.")
-        msg = event[1]
-        nick = event[0]
+        msg = event["message"]
+        nick = event["player_name"]
         with open(self.chatlog, "a", encoding="utf-8") as chatlogi:
             time1 = time.strftime("%c", time.localtime())
             chatlogi.write("[{}] ".format(time1) + "[{0}] ".format(nick.decode()) + msg.decode() + "\n")

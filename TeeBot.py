@@ -22,7 +22,7 @@
 
 import telnetlib
 import time, logging
-
+from json import dumps
 import Tees
 import Events_TeeBot
 from config import accesslog
@@ -78,11 +78,11 @@ class TeeBot(object):
         self.writeLine('echo "'+self.name+': ' + message.replace('"', "'") + "\"'")
 
     def say(self, message):
-        self.debug("Saying: {}".format(message))
+        self.info("Saying: {}".format(message))
         self.writeLine('say "'+self.name+': ' + message.replace('"', "'") + "\"'")
 
     def brd(self, message):
-        self.debug("Broadcating: {}".format(message))
+        self.info("Broadcating: {}".format(message))
         self.writeLine('broadcast "' + message.replace('"', "'") + "\"'")
 
     def killSpree(self, id):
@@ -144,13 +144,13 @@ class TeeBot(object):
         # except AttributeError as e:
         #     self.debug("Error: {0}".format(e), "CRITICAL")
         try:
-            tee = self.teelst.get_Tee(event[0])
-            if tee.get_nick().decode() != event[3].decode():
+            tee = self.teelst.get_Tee(event["player_id"])
+            if tee.get_nick().decode() != event["player_name"].decode():
                 old_ip = tee.get_ip()
-                tee.set_nick(event[3])
-                tee.set_score(event[4])
-                tee.set_ip(event[1])
-                tee.set_port(event[2])
+                tee.set_nick(event["player_name"])
+                tee.set_score(event["score"])
+                tee.set_ip(event["ip"])
+                tee.set_port(event["port"])
                 if old_ip != tee.get_ip():
                     with open(accesslog, "a", encoding="utf-8") as accesslogi:
                         time1 = time.strftime("%c", time.localtime())
@@ -161,16 +161,16 @@ class TeeBot(object):
         except AttributeError as e:
             self.exception(e)
         except KeyError as e:
-            self.debug("Didn't find Tee: {} in player lists, adding it now:".format(event[3].decode()))
-            self.exception(e)
+            #self.exception(e)
+            self.debug("Didn't find Tee: {} in player lists, adding it now:".format(event["player_name"].decode()))
             with open(accesslog, "a", encoding="utf-8") as accesslogi:
-                nick = event[3]
-                ip = event[1]
+                nick = event["player_name"]
+                ip = event["ip"]
                 time1 = time.strftime("%c", time.localtime())
                 accesslogi.write(
                     "[{}] ".format(time1) + "{} joined the server ({})".format(nick.decode(), ip.decode()) + "\n")
-            self.teelst.add_Tee(event[0], event[3], event[1], event[2],
-                                event[-1], 0)  # id, name, ip, port, score
+            self.teelst.add_Tee(event["player_id"], event["player_name"], event["ip"], event["port"],
+                                event["score"], 0)  # id, name, ip, port, score
         return self.teelst.get_TeeLst()
 
     def get_Leaves(self, ide):
@@ -184,7 +184,7 @@ class TeeBot(object):
     def get_Event(self, line):
 
         lst = self.events.game_events(line)
-
+        self.debug("We got event:\n"+dumps(lst))
         # if lst is not None:
         # if lst[-1] == "KILL":
         # self.debug(
@@ -200,8 +200,9 @@ class TeeBot(object):
         #     if lst[-1] == "CAPTURE":
         #         self.debug("Flag was Captured by " + lst[1].decode(), "FLAG")
         #TODO: Broadcast messages, say messages, votes...
-        if lst[-1] != "UNKNOWN":
-            self.debug("Following event occured: {}".format(lst[-1]))
+
+        #if lst[-1] != "UNKNOWN":
+        #    self.debug("Following event occured: {}".format(lst[-1]))
         return lst
 
 

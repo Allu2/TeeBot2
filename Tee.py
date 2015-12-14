@@ -49,8 +49,10 @@ class Tee(object):
         if spree > 0:
             if spree > self.attributes["largest_spree"]:
                 self.attributes["largest_spree"] = spree
+
             if now - self.attributes["lastkilltime"] <= 2:
                 self.attributes["multikill"] += 1
+
             if now - self.attributes["lastkilltime"] > 2:
                 self.attributes["multikill"] = 1
 

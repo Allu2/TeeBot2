@@ -11,7 +11,7 @@ class Plugin_loader:
     def event_handler(self, event):
         thread_list = []
         for x in self.plugins:
-            if event[-1] in x.handle_events or "*" in x.handle_events:
+            if event["event_type"] in x.handle_events or "*" in x.handle_events:
                 t = threading.Thread(target=x.handle, args=(event, self.teeBot, self.plugins))
                 thread_list.append(t)
                 t.start()

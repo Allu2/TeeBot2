@@ -8,13 +8,13 @@ class Chat:
         pass
     def handle(self, event, bot, plugins):
         bot.debug("Chat_Commands is handling this.")
-        msg = event[1]
-        nick = event[0]
-        id = event[2]
+        msg = event["message"]
+        nick = event["player_name"]
+        id = event["player_id"]
         if "!" == msg.decode()[0]:
             with open(self.commands, "r", encoding="utf-8") as cmds:
                 msgg = msg.decode()
-                print("We got: {} as mssg.".format(msgg))
+                print("We got: {} as msgg.".format(msgg))
                 lines = cmds.readlines()
                 for x in lines:
                     split = x.split(" _ ")

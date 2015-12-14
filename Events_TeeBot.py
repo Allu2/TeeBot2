@@ -27,6 +27,7 @@ It also supports somehow ripping information from "status" command in order to g
 With some introduction of regexp and stuff this documentation should be redone.
 """
 import re
+import time
 import logging
 logger = logging.getLogger("Bot")
 class Events():
@@ -55,8 +56,19 @@ class Events():
                 lst = list(result.groups())
                 lst.append(
                     "KILL") #killer_id, killer_name, victim_id, victim_name, used_weapon_id, special(0/1(?)), type of event
+                reply_dictionary = \
+                    {
+                        "event_type": "KILL",
+                        "killer_id":        lst[0],
+                        "killer_name":      lst[1],
+                        "victim_id":        lst[2],
+                        "victim_name":      lst[3],
+                        "user_weapon_id":   lst[4],
+                        "special":          lst[5],
+                        "time_stamp":       time.time(),
+                }
 
-                return lst
+                return reply_dictionary
             if splitted_line[1] == b"pickup":
                 # if b"[game]: pickup " in line:
                 result = re.search(b"pickup player='(\d+):(.+)' item=(\d+)/(\d+)", line)
@@ -66,87 +78,167 @@ class Events():
 
                 lst.append(
                     "PICKUP") #player_id, player_name, item_group(0 = hearts, 1 = armors,  2 = weapons(2/0=hammer 2/1 = pistol 2/2 = shotgun 2/3 = grenade 2/4 = rifle, 3 = special), group_id(useful for weapons (ninja 3/5)
-                return lst
+                reply_dictionary = \
+                    {
+                        "event_type": "PICKUP",
+                        "player_id":        lst[0],
+                        "player_name":      lst[1],
+                        "item_group":       lst[2],
+                        "group_id":         lst[3],
+                        "name":             lst[-2],
+                        "time_stamp":       time.time(),
+                }
+                return reply_dictionary
             # [game]: start round type='CTF' teamplay='1'
+
             if splitted_line[1] == b"start":
                 result = re.search(b"start round type='(.+)' teamplay='(\d+)'", line)
                 groups = result.groups()
                 lst = list(result.groups())
                 lst.append("START")
-                return lst
+                reply_dictionary = \
+                    {
+                        "event_type": "START",
+                        "game_type":        lst[0],
+                        "team_game":        lst[1],
+                        "time_stamp":       time.time(),
+                    }
+                return reply_dictionary
+
             if splitted_line[1] == b"flag_grab":
                 # if b"[game]: flag_grab" in line: #flag_grab player='2:Lauti super'
                 result = re.search(b"flag_grab player='(\d+):(.+)'", line)
                 groups = result.groups()
                 lst = list(result.groups())
                 lst.append("FLAG") #player_id, player_name, type of event
-                return lst
+                reply_dictionary = \
+                    {
+                        "event_type":       "FLAG",
+                        "player_id":        lst[0],
+                        "player_name":      lst[1],
+                        "time_stamp":       time.time(),
+                    }
+                return reply_dictionary
+
             if splitted_line[1] == b"flag_capture":
                 #if b"[game]: flag_capture" in line:
                 result = re.search(b"flag_capture player='(\d+):(.+)'", line)
                 groups = result.groups()
                 lst = list(result.groups())
                 lst.append("CAPTURE") #player_id, player_name, type of event
+                reply_dictionary = \
+                    {
+                        "event_type":       "CAPTURE",
+                        "player_id":        lst[0],
+                        "player_name":      lst[1],
+                        "time_stamp":       time.time(),
+                    }
                 return lst
+
             if splitted_line[1] == b"team_join":
                 # b"[game]: team_join player='0:LeveL 6' team=0\n"
                 result = re.search(b"team_join player='(\d+):(.+)'", line)
                 groups = result.groups()
                 lst = list(result.groups())
                 moved = False
-                if "m_Team=" in line.split(b" ")[-1]:
+                line = line.decode()
+                if "m_Team=" in line.split(" ")[-1]:
                     moved = True
-                lst.append(str(line.split(b" ")[-1]).replace("m_Team=", "").replace("team=", "").replace("\\n", "").replace("b'", "").replace("'", ""))
+                print("möh")
+                lst.append(line.split(" ")[-1].replace("m_Team=", "").replace("team=", "").replace("\\n", "").replace("b'", "").replace("'", ""))
                 lst.append(moved)
                 lst.append("TEAM_JOIN")
-                print(lst)
-                return lst
+                reply_dictionary = \
+                    {
+                        "event_type":       "TEAM_JOIN",
+                        "player_id":        lst[0],
+                        "player_name":      lst[1],
+                        "changed_team":     moved,
+                        "time_stamp":       time.time(),
+                    }
+                return reply_dictionary
+
         if (line.split(b" ")[0] == b"[chat]:" or line.split(b" ")[0] == b"[teamchat]:"):
             if splitted_line[1] != b"***":
-                if b"[teamchat]" in line.split(b" ")[0]:
+                if "[teamchat]" in line.decode().split(" ")[0]:
                     lst = self.conversation(line, True)
                 else:
                     lst = self.conversation(line, False)
                 if lst[-1] != "NONE":
-                    if b"[teamchat]" in line.split(b" ")[0]:
+                    if "[teamchat]" in line.decode().split(" ")[0]:
                         lst.append("TEAMCHAT")
                     else:
                         lst.append("CHAT")
                 else:
                     lst.append("UNKNOWN")
-                return lst
+                reply_dictionary = \
+                    {
+                        "event_type":       lst[-1],
+                        "player_name":      lst[0],
+                        "message":          lst[1],
+                        "player_id":        lst[2],
+                        "time_stamp":       time.time(),
+                    }
+                return reply_dictionary
             if splitted_line[1] == b"***":
                 if b"' changed name to '" in line:
                     result = re.search(b"'(.+)' changed name to '(.+)'", line)
                     lst = list(result.groups())  # old, new
                     lst.append("NICK_CHANGE")
-                    return lst
+                    reply_dictionary = \
+                        {
+                            "event_type":       lst[-1],
+                            "old_name":         lst[0],
+                            "new_name":         lst[1],
+                            "time_stamp":       time.time(),
+                        }
+
+                    return reply_dictionary
                 else:
-                    return ["SERVER SAY"]
+                    return {"event_type": "SERVER SAY", "time_stamp": time.time()}
+
         if splitted_line[0] == b"[Console]:":
             if b"!reload" in line:
-                return ["RELOAD_ORDER"]
+                return {"event_type": "RELOAD_ORDER", "time_stamp": time.time()}
             else:
-                return [splitted_line[1], "CONSOLE_MESSAGE"]
+                return {"message": splitted_line[1], "event_type": "CONSOLE_MESSAGE", "time_stamp": time.time()}
+
         if (splitted_line[0] == b"[Server]:" and (b"id=" in splitted_line[1])) and splitted_line[-1] != b"connecting\n":
             result = re.search(b"id=(\d+) addr=(.+):(\d+) name='(.+)' score=(.+)", line)
             lst = list(result.groups())
             lst.append("STATUS_MESSAGE")
-            return lst  # id, ip, port, nick, score, event type
+            reply_dictionary = \
+                {
+                    "event_type":       lst[-1],
+                    "player_id":        lst[0],
+                    "ip":               lst[1],
+                    "port":             lst[2],
+                    "player_name":      lst[3],
+                    "score":            lst[4],
+                    "time_stamp":       time.time(),
+                }
+            return reply_dictionary  # id, ip, port, nick, score, event type
+
         if splitted_line[0] == b"[server]:":
             if splitted_line[1] == b"client":
                 result = re.search(b"\[server\]: client dropped. cid=(\d+)", line)
                 ide = list(result.groups())
                 ide.append("LEAVE")
-                return ide
+                reply_dictionary = \
+                    {
+                        "event_type":        ide[-1],
+                        "player_id":         ide[0],
+                        "time_stamp":       time.time(),
+                    }
+                return reply_dictionary
             if b"cid=" in splitted_line[1] or b"ClientID=" in splitted_line[1]:
-                return ["COMMAND"]
+                return {"event_type": "COMMAND", "time_stamp": time.time()}
             if splitted_line[1] == b"player":
-                return ["CONNECTING"]
+                return {"event_type": "CONNECTING", "time_stamp": time.time()}
             else:
-                return ["UNKNOWN"]
+                return {"event_type": "UNKNOWN", "time_stamp": time.time(), "line": line}
         else:
-            return ["UNKNOWN"]
+            return {"event_type": "UNKNOWN", "time_stamp": time.time(), "line": line}
             #b'[Console]: hei\n'
 
     def conversation(self, line, teamchat):
@@ -157,11 +249,12 @@ class Events():
         if the information is correct "none" is False since we do have info
         if we got wrong "non chat" line we return none with value True, after all we have no info at all.
         """
+        print(type(line))
         if (line.split(b" ")[0] == b"[chat]:" or line.split(b" ")[0] == b"[teamchat]:") and line.split(b" ")[1] != b"***":
             if teamchat:
-                result = re.search(b"\[teamchat\]: (\d+):(-\d):(.+): (.+)", line)
+                result = re.search(b"\[teamchat\]: (\d+):(.+):(.+): (.+)", line)
             else:
-                result = re.search(b"\[chat\]: (\d+):(-\d):(.+): (.+)", line)
+                result = re.search(b"\[chat\]: (\d+):(.+):(.+): (.+)", line)
             name = result.groups()[2]
             ide = result.groups()[0]
             message = result.groups()[-1]
@@ -174,24 +267,18 @@ class Events():
             return info
 
     def Weaponsolv(self, id):
-        id = int(id)
-        if id == -1:
-            return "hit on a kill tile"
-        if id == -2:
-            return "kill command"
-        if id == -3:
-            return "changing team/leaving"
-        if id == 1:
-            return "pistol"
-        if id == 0:
-            return "hammer"
-        if id == 2:
-            return "shotgun"
-        if id == 3:
-            return "grenade"
-        if id == 4:
-            return "rifle"
-
+        id = str(id)
+        dic =  {"-1":"hit on a kill tile",
+                "-2":"kill command",
+                "-3":"changing team/leaving",
+                "1": "pistol",
+                "0": "hammer",
+                "2": "shotgun",
+                "3": "grenade",
+                "4": "rifle"}
+        hit = dic.get(id)
+        if hit is not None:
+            return hit
         else:
             return "something magical.."
 

@@ -29,7 +29,7 @@ from config import banned_nicks
 from config import accesslog
 from config import chatlog
 from config import commands
-import plugin_loader, logging
+import plugin_loader, logging, threading
 logging.basicConfig()
 logger = logging.getLogger("Bot")
 logger.setLevel(logging.DEBUG)
@@ -41,6 +41,7 @@ bot.writeLine("status")
 pl_loader = plugin_loader.Plugin_loader(bot)
 check = 5
 ticks = 0
+def loop():
 
 while True:
     time.sleep(ticks)
@@ -58,21 +59,22 @@ while True:
             bot.writeLine("status")
         else:
             event = bot.get_Event(line)
+            print(type(event))
             if event is not None:
-                if event[-1] == "RELOAD ORDER":
+                if event["event_type"] == "RELOAD ORDER":
                     logger.info("Reloaded plugins")
                     importlib.reload(plugin_loader)
-                if event[-1] == "NICK CHANGE":
+                if event["event_type"] == "NICK CHANGE":
                     bot.writeLine("status")
-                if event[-1] == "STATUS_MESSAGE":
-                    nick = event[3]
-                    ide = event[0]
+                if event["event_type"] == "STATUS_MESSAGE":
+                    nick = event["player_name"]
+                    ide = event["player_id"]
                     if nick.decode() in banned_nicks:
                         bot.writeLine("kick {0}".format(ide.decode()))
                     lista = bot.updTeeList(event)
-                if event[-1] == "LEAVE":
+                if event["event_type"] == "LEAVE":
                     with open(accesslog, "a", encoding="utf-8") as accesslogi:
-                        tee = bot.get_Tee(event[0])
+                        tee = bot.get_Tee(event["player_id"])
                         nick = tee.get_nick()
                         ip = tee.get_ip()
                         time1 = time.strftime("%c", time.localtime())
@@ -86,8 +88,6 @@ while True:
 
                 else:
                     pass
-                if event[-1] == "UNKNOWN":
-                    event = [line, "UNKNOWN"]
                 pl_loader.event_handler(event)
             else:
                 pass
