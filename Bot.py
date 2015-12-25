@@ -20,6 +20,6 @@
 #  
 #  
 
-import TeeBot, time, logging
+import TeeBot
 bot = TeeBot.TeeBot()
 bot.start()

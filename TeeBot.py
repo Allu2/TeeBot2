@@ -20,7 +20,7 @@
 #  
 #  
 
-import telnetlib, threading
+import telnetlib
 from threading import Thread
 import time, logging, importlib
 from json import dumps
