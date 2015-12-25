@@ -30,22 +30,27 @@ import Events_TeeBot
 from config import accesslog
 from config import nick
 from config import banned_nicks
+from config import password
+from config import port
+from config import hostname
+
 class TeeBot(Thread):
-    def __init__(self, host, port, passwd):
+    def __init__(self):
         Thread.__init__(self)
-        self.passwd = passwd
-        self.host = host
+        self.passwd = password
+        self.host = hostname
         self.port = port
-        self.address = host + ":" + str(port)
+        self.address = self.host + ":" + str(port)
         self.teelst = Tees.Tees()
         self.events = Events_TeeBot.Events()
         self.name = nick
+        logging.basicConfig()
         self.logger = logging.getLogger("Bot")
+        self.logger.setLevel(logging.DEBUG)
         self.debug = self.logger.debug
         self.info = self.logger.info
         self.exception = self.logger.exception
         self.plugin_loader = plugin_loader.Plugin_loader(self)
-
     @property
     def player_count(self):
         return len(self.teelst.get_TeeLst().keys())
@@ -222,6 +227,10 @@ class TeeBot(Thread):
 
         return lst
     def run(self):
+
+        self.tn  = self.connect
+        self.say("Connected.")
+        self.writeLine("status")
         ticks = 0.1
         while True:
             time.sleep(ticks)

@@ -19,23 +19,7 @@
 #  MA 02110-1301, USA.
 #  
 #  
-import time, importlib
 
-import TeeBot
-from config import password
-from config import port
-from config import hostname
-from config import accesslog
-from config import chatlog
-from config import commands
-import plugin_loader, logging, threading
-logging.basicConfig()
-logger = logging.getLogger("Bot")
-logger.setLevel(logging.DEBUG)
-bot = TeeBot.TeeBot(hostname, port, password) #Moved hostname, port and password to config file.
-
-con = bot.connect
-bot.say("Connected.")
-bot.writeLine("status")
-pl_loader = plugin_loader.Plugin_loader(bot)
-bot.run()
+import TeeBot, time, logging
+bot = TeeBot.TeeBot()
+bot.start()

@@ -113,4 +113,4 @@ class Tee(object):
 
     def __str__(self):
         return ( str(self.attributes["nick"]) + ' comes from IP adress: ' + str(self.attributes["ip"]) + ':' + str(self.attributes["port"]) + ' and has player ID: ' + str(
-            self.attributes["idnum"]) + ' and has ' + str(self.attributes["score"]) + ' points.')
+            self.attributes["id"]) + ' and has ' + str(self.attributes["score"]) + ' points.')
