@@ -10,7 +10,7 @@ class Weapon_Stats:
         bot.debug("Weapon Stats is handling this.")
         bot.logger.debug("We got event: {}".format(event))
         if event["event_type"] == "KILL":
-            weapon = bot.events.Weaponsolv(int(event["user_weapon_id"].decode()))
+            weapon = bot.events.Weaponsolv(int(event["user_weapon_id"]))
             bot.debug("We got weapon: {}".format(weapon))
             id = int(event["killer_id"])
             try:
@@ -41,8 +41,8 @@ class Weapon_Stats:
             msg = event["message"]
             tee = bot.get_Tee(event["player_id"])
             for wep in self.weapons:
-                if "/"+wep == msg.decode() and tee.get_nick().decode() == "blackdevil" :
-                    nick = tee.get_nick().decode()
+                if "/"+wep == msg and tee.get_nick() == "blackdevil" :
+                    nick = tee.get_nick()
                     bot.say("Our angel with a shotgun")
                     try:
                         bot.say("Has picked up {} {} times".format(wep, tee.attributes[wep+"_picks"]))
@@ -53,8 +53,8 @@ class Weapon_Stats:
                     except Exception as e:
                         pass
 
-                elif "/"+wep == msg.decode() and tee.get_nick().decode() != "blackdevil":
-                    nick = tee.get_nick().decode()
+                elif "/"+wep == msg and tee.get_nick() != "blackdevil":
+                    nick = tee.get_nick()
                     bot.say("Player: {} {} stats:".format(nick, wep))
                     try:
                         bot.say("Has picked up {} {} times".format(wep, tee.attributes[wep+"_picks"]))

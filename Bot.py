@@ -25,7 +25,6 @@ import TeeBot
 from config import password
 from config import port
 from config import hostname
-from config import banned_nicks
 from config import accesslog
 from config import chatlog
 from config import commands
@@ -39,58 +38,4 @@ con = bot.connect
 bot.say("Connected.")
 bot.writeLine("status")
 pl_loader = plugin_loader.Plugin_loader(bot)
-check = 5
-ticks = 0
-def loop():
-
-while True:
-    time.sleep(ticks)
-    try:
-        try:
-            line = bot.readLine()
-            if line != b"\n":
-                logger.debug("We got line: {}".format(line))
-        except Exception as e:
-            logger.exception(e)
-            exit()
-        if line == b"\n":
-            pass
-        elif b"[server]:" in line.split(b" ")[0] and (b"player" in line.split(b" ")[1] and b"has" in line.split(b" ")[2]):
-            bot.writeLine("status")
-        else:
-            event = bot.get_Event(line)
-            print(type(event))
-            if event is not None:
-                if event["event_type"] == "RELOAD ORDER":
-                    logger.info("Reloaded plugins")
-                    importlib.reload(plugin_loader)
-                if event["event_type"] == "NICK CHANGE":
-                    bot.writeLine("status")
-                if event["event_type"] == "STATUS_MESSAGE":
-                    nick = event["player_name"]
-                    ide = event["player_id"]
-                    if nick.decode() in banned_nicks:
-                        bot.writeLine("kick {0}".format(ide.decode()))
-                    lista = bot.updTeeList(event)
-                if event["event_type"] == "LEAVE":
-                    with open(accesslog, "a", encoding="utf-8") as accesslogi:
-                        tee = bot.get_Tee(event["player_id"])
-                        nick = tee.get_nick()
-                        ip = tee.get_ip()
-                        time1 = time.strftime("%c", time.localtime())
-                        accesslogi.write(
-                            "[{}] ".format(time1) + "{} left the server ({})".format(nick.decode(), ip.decode()) + "\n")
-                    logger.debug("{} has left the game.".format(bot.get_Leaves(event[0]).decode()))
-                    bot.writeLine("status")
-                    tees = bot.player_count
-                    if tees == 0:
-                        bot.writeLine("restart")
-
-                else:
-                    pass
-                pl_loader.event_handler(event)
-            else:
-                pass
-    except (KeyError, TypeError, AttributeError, NameError, UnicodeDecodeError) as e:
-        logger.exception(e)
-        bot.writeLine("status")
+bot.run()

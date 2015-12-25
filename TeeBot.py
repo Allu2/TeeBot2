@@ -20,16 +20,19 @@
 #  
 #  
 
-import telnetlib
-import time, logging
+import telnetlib, threading
+from threading import Thread
+import time, logging, importlib
 from json import dumps
 import Tees
+import plugin_loader
 import Events_TeeBot
 from config import accesslog
 from config import nick
-
-class TeeBot(object):
+from config import banned_nicks
+class TeeBot(Thread):
     def __init__(self, host, port, passwd):
+        Thread.__init__(self)
         self.passwd = passwd
         self.host = host
         self.port = port
@@ -41,6 +44,7 @@ class TeeBot(object):
         self.debug = self.logger.debug
         self.info = self.logger.info
         self.exception = self.logger.exception
+        self.plugin_loader = plugin_loader.Plugin_loader(self)
 
     @property
     def player_count(self):
@@ -125,8 +129,8 @@ class TeeBot(object):
             pass
     def shutdown(self, victim_tee, killer_tee, spree):
         self.brd(
-            "{0}'s {2} kill spree was shutdown by {1}!".format(victim_tee.get_nick().decode(),
-                                                                         killer_tee.get_nick().decode(), str(spree)))
+            "{0}'s {2} kill spree was shutdown by {1}!".format(victim_tee.get_nick(),
+                                                                         killer_tee.get_nick(), str(spree)))
 
     def get_Teelista(self):
         return self.teelst.get_TeeLst()
@@ -138,14 +142,14 @@ class TeeBot(object):
 
         # try:
         # self.debug(result.groups(), "DEBUG")
-        # if result.groups()[3].decode() in banned_nicks:
-        #         self.writeLine("kick {0}".format(result.groups()[0].decode()))
+        # if result.groups()[3] in banned_nicks:
+        #         self.writeLine("kick {0}".format(result.groups()[0]))
         #
         # except AttributeError as e:
         #     self.debug("Error: {0}".format(e), "CRITICAL")
         try:
             tee = self.teelst.get_Tee(event["player_id"])
-            if tee.get_nick().decode() != event["player_name"].decode():
+            if tee.get_nick() != event["player_name"]:
                 old_ip = tee.get_ip()
                 tee.set_nick(event["player_name"])
                 tee.set_score(event["score"])
@@ -154,21 +158,21 @@ class TeeBot(object):
                 if old_ip != tee.get_ip():
                     with open(accesslog, "a", encoding="utf-8") as accesslogi:
                         time1 = time.strftime("%c", time.localtime())
-                        accesslogi.write("[{}] ".format(time1) + "{} joined the server ({})".format(tee.get_nick().decode(),
-                                                                                                    tee.get_ip().decode()) + "\n")
+                        accesslogi.write("[{}] ".format(time1) + "{} joined the server ({})".format(tee.get_nick(),
+                                                                                                    tee.get_ip()) + "\n")
                 else:
                     pass
         except AttributeError as e:
             self.exception(e)
         except KeyError as e:
             #self.exception(e)
-            self.debug("Didn't find Tee: {} in player lists, adding it now:".format(event["player_name"].decode()))
+            self.debug("Didn't find Tee: {} in player lists, adding it now:".format(event["player_name"]))
             with open(accesslog, "a", encoding="utf-8") as accesslogi:
                 nick = event["player_name"]
                 ip = event["ip"]
                 time1 = time.strftime("%c", time.localtime())
                 accesslogi.write(
-                    "[{}] ".format(time1) + "{} joined the server ({})".format(nick.decode(), ip.decode()) + "\n")
+                    "[{}] ".format(time1) + "{} joined the server ({})".format(nick, ip) + "\n")
             self.teelst.add_Tee(event["player_id"], event["player_name"], event["ip"], event["port"],
                                 event["score"], 0)  # id, name, ip, port, score
         return self.teelst.get_TeeLst()
@@ -184,27 +188,60 @@ class TeeBot(object):
     def get_Event(self, line):
 
         lst = self.events.game_events(line)
+        lst["line"] = line
         self.debug("We got event:\n"+dumps(lst))
-        # if lst is not None:
-        # if lst[-1] == "KILL":
-        # self.debug(
-        #             "Player " + lst[3].decode() + " was killed by " + lst[
-        #                 1].decode() + " with a " + self.events.Weaponsolv(
-        #                 int(lst[4])), "KILL")
-        #         return lst
-        #     if lst[-1] == "PICKUP":
-        #         self.debug(lst[-2] + " was picked up by " + lst[1].decode(), "INFO")
-        #         return lst
-        #     if lst[-1] == "FLAG":
-        #         self.debug("Flag was grabbed by " + lst[1].decode(), "FLAG")
-        #     if lst[-1] == "CAPTURE":
-        #         self.debug("Flag was Captured by " + lst[1].decode(), "FLAG")
-        #TODO: Broadcast messages, say messages, votes...
+        if lst is not None:
+            if lst["event_type"] == "RELOAD ORDER":
+                self.info("Reloaded plugins")
+                importlib.reload(plugin_loader)
+            if lst["event_type"] == "NICK CHANGE":
+                self.writeLine("status")
+            if lst["event_type"] == "STATUS_MESSAGE":
+                nick = lst["player_name"]
+                ide = lst["player_id"]
+                if nick in banned_nicks:
+                    self.writeLine("kick {0}".format(ide))
+                lista = self.updTeeList(lst)
+            if lst["event_type"] == "LEAVE":
+                with open(accesslog, "a", encoding="utf-8") as accesslogi:
+                    tee = self.get_Tee(lst["player_id"])
+                    nick = tee.get_nick()
+                    ip = tee.get_ip()
+                    time1 = time.strftime("%c", time.localtime())
+                    accesslogi.write(
+                        "[{}] ".format(time1) + "{} left the server ({})".format(nick, ip) + "\n")
+                self.debug("{} has left the game.".format(self.get_Leaves(lst[0])))
+                self.writeLine("status")
+                tees = self.player_count
+                if tees == 0:
+                    self.writeLine("restart")
 
-        #if lst[-1] != "UNKNOWN":
-        #    self.debug("Following event occured: {}".format(lst[-1]))
+            else:
+                pass
+            self.plugin_loader.event_handler(lst)
+
         return lst
-
+    def run(self):
+        ticks = 0.1
+        while True:
+            time.sleep(ticks)
+            try:
+                try:
+                    line = self.readLine().decode()
+                    if line != "\n":
+                        self.debug("We got line: {}".format(line))
+                except Exception as e:
+                    self.exception(e)
+                    exit()
+                if line == "\n":
+                    pass
+                elif "[server]:" in line.split(" ")[0] and ("player" in line.split(" ")[1] and "has" in line.split(" ")[2]):
+                    self.writeLine("status")
+                else:
+                    event = self.get_Event(line)
+            except (KeyError, TypeError, AttributeError, NameError, UnicodeDecodeError) as e:
+                self.exception(e)
+                self.writeLine("status")
 
 
 
