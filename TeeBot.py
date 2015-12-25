@@ -51,6 +51,23 @@ class TeeBot(Thread):
         self.info = self.logger.info
         self.exception = self.logger.exception
         self.plugin_loader = plugin_loader.Plugin_loader(self)
+        self.game = {
+            "type": "",
+            "start_time": 0,
+            "map": "",
+            "red":{
+                "score": 0,
+                "players": 0,
+            },
+            "blue": {
+                "score": 0,
+                "players": 0,
+            },
+            "purple": {
+                "score": 0,
+                "players": 0,
+            },
+        }
     @property
     def player_count(self):
         return len(self.teelst.get_TeeLst().keys())
@@ -75,6 +92,15 @@ class TeeBot(Thread):
 
     def readLine(self):
         return self.tn.read_until(b"\n")
+
+    def team_solver(self, team_id):
+        team_id = int(team_id)
+        teams = {
+            0: "red",
+            1: "blue",
+            -1: "purple"
+        }
+        return teams[team_id]
 
     def writeLine(self, line):
         self.tn.write(str(line).encode('utf-8') + b"\n")
@@ -201,6 +227,9 @@ class TeeBot(Thread):
                 importlib.reload(plugin_loader)
             if lst["event_type"] == "NICK CHANGE":
                 self.writeLine("status")
+            if lst["event_type"] == "MAP_CHANGE":
+                self.game["map"] = lst["map_name"]
+
             if lst["event_type"] == "STATUS_MESSAGE":
                 nick = lst["player_name"]
                 ide = lst["player_id"]

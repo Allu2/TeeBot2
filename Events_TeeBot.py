@@ -105,7 +105,7 @@ class Events():
                     }
                 return reply_dictionary
 
-            if splitted_line[1] == "flag_gra":
+            if splitted_line[1] == "flag_grab":
                 # if "[game]: flag_gra" in line: #flag_grab player='2:Lauti super'
                 result = re.search("flag_grab player='(\d+):(.+)'", line)
                 groups = result.groups()
@@ -142,9 +142,10 @@ class Events():
                 lst = list(result.groups())
                 moved = False
                 line = line
+                new_team = "None"
                 if "m_Team=" in line.split(" ")[-1]:
                     moved = True
-                print("möh")
+                    new_team = line.split(" ")[-1].split("m_Team=")[1].rstrip("\n")
                 lst.append(line.split(" ")[-1].replace("m_Team=", "").replace("team=", "").replace("\\n", "").replace("b'", "").replace("'", ""))
                 lst.append(moved)
                 lst.append("TEAM_JOIN")
@@ -155,6 +156,7 @@ class Events():
                         "player_name":      lst[1],
                         "changed_team":     moved,
                         "time_stamp":       time.time(),
+                        "new_team":         new_team
                     }
                 return reply_dictionary
 
@@ -218,6 +220,20 @@ class Events():
                     "time_stamp":       time.time(),
                 }
             return reply_dictionary  # id, ip, port, nick, score, event type
+        if "crc is" in line and line.split(" ")[2] == "crc":
+            result = re.search("\[server\]: (.+)/(.+) crc is (.+)", line)
+            lst = list(result.groups())
+            lst.append("MAP_CHANGE")
+            reply_dictionary = \
+                {
+                    "event_type":       lst[-1],
+                    "map_folder":       lst[0],
+                    "map_name":         lst[1],
+                    "crc":              lst[2],
+                    "time_stamp":       time.time(),
+                }
+            return reply_dictionary
+
 
         if splitted_line[0] == "[server]:":
             if splitted_line[1] == "client":
